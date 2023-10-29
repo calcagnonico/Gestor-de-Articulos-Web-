@@ -1,0 +1,12 @@
+C:\Dropbox\Programacion\Curso C# Nivel 2\Programas VSC\TPFinal\TPFinalNivel2_Calcagno\dominio\obj\Debug\dominio.csproj.AssemblyReference.cache
+C:\Dropbox\Programacion\Curso C# Nivel 2\Programas VSC\TPFinal\TPFinalNivel2_Calcagno\dominio\obj\Debug\dominio.csproj.CoreCompileInputs.cache
+C:\Dropbox\Programacion\Curso C# Nivel 2\Programas VSC\TPFinal\TPFinalNivel2_Calcagno\dominio\bin\Debug\dominio.dll
+C:\Dropbox\Programacion\Curso C# Nivel 2\Programas VSC\TPFinal\TPFinalNivel2_Calcagno\dominio\bin\Debug\dominio.pdb
+C:\Dropbox\Programacion\Curso C# Nivel 2\Programas VSC\TPFinal\TPFinalNivel2_Calcagno\dominio\obj\Debug\dominio.dll
+C:\Dropbox\Programacion\Curso C# Nivel 2\Programas VSC\TPFinal\TPFinalNivel2_Calcagno\dominio\obj\Debug\dominio.pdb
+C:\Dropbox\Programacion\Curso C# Nivel 3\Programas VSC\ProgramasVSC\dominio\bin\Debug\dominio.dll
+C:\Dropbox\Programacion\Curso C# Nivel 3\Programas VSC\ProgramasVSC\dominio\bin\Debug\dominio.pdb
+C:\Dropbox\Programacion\Curso C# Nivel 3\Programas VSC\ProgramasVSC\dominio\obj\Debug\dominio.csproj.AssemblyReference.cache
+C:\Dropbox\Programacion\Curso C# Nivel 3\Programas VSC\ProgramasVSC\dominio\obj\Debug\dominio.csproj.CoreCompileInputs.cache
+C:\Dropbox\Programacion\Curso C# Nivel 3\Programas VSC\ProgramasVSC\dominio\obj\Debug\dominio.dll
+C:\Dropbox\Programacion\Curso C# Nivel 3\Programas VSC\ProgramasVSC\dominio\obj\Debug\dominio.pdb

@@ -1,0 +1,6 @@
+C:\Dropbox\Programacion\Curso C# Nivel 2\Programas VSC\TPFinal\TPFinalNivel2_Calcagno\dominio\bin\Release\dominio.dll
+C:\Dropbox\Programacion\Curso C# Nivel 2\Programas VSC\TPFinal\TPFinalNivel2_Calcagno\dominio\bin\Release\dominio.pdb
+C:\Dropbox\Programacion\Curso C# Nivel 2\Programas VSC\TPFinal\TPFinalNivel2_Calcagno\dominio\obj\Release\dominio.csproj.AssemblyReference.cache
+C:\Dropbox\Programacion\Curso C# Nivel 2\Programas VSC\TPFinal\TPFinalNivel2_Calcagno\dominio\obj\Release\dominio.csproj.CoreCompileInputs.cache
+C:\Dropbox\Programacion\Curso C# Nivel 2\Programas VSC\TPFinal\TPFinalNivel2_Calcagno\dominio\obj\Release\dominio.dll
+C:\Dropbox\Programacion\Curso C# Nivel 2\Programas VSC\TPFinal\TPFinalNivel2_Calcagno\dominio\obj\Release\dominio.pdb

@@ -1,0 +1,9 @@
+C:\Dropbox\Programacion\Curso C# Nivel 2\Programas VSC\TPFinal\TPFinalNivel2_Calcagno\negocio\bin\Release\negocio.dll
+C:\Dropbox\Programacion\Curso C# Nivel 2\Programas VSC\TPFinal\TPFinalNivel2_Calcagno\negocio\bin\Release\negocio.pdb
+C:\Dropbox\Programacion\Curso C# Nivel 2\Programas VSC\TPFinal\TPFinalNivel2_Calcagno\negocio\bin\Release\dominio.dll
+C:\Dropbox\Programacion\Curso C# Nivel 2\Programas VSC\TPFinal\TPFinalNivel2_Calcagno\negocio\bin\Release\dominio.pdb
+C:\Dropbox\Programacion\Curso C# Nivel 2\Programas VSC\TPFinal\TPFinalNivel2_Calcagno\negocio\obj\Release\negocio.csproj.AssemblyReference.cache
+C:\Dropbox\Programacion\Curso C# Nivel 2\Programas VSC\TPFinal\TPFinalNivel2_Calcagno\negocio\obj\Release\negocio.csproj.CoreCompileInputs.cache
+C:\Dropbox\Programacion\Curso C# Nivel 2\Programas VSC\TPFinal\TPFinalNivel2_Calcagno\negocio\obj\Release\negocio.csproj.CopyComplete
+C:\Dropbox\Programacion\Curso C# Nivel 2\Programas VSC\TPFinal\TPFinalNivel2_Calcagno\negocio\obj\Release\negocio.dll
+C:\Dropbox\Programacion\Curso C# Nivel 2\Programas VSC\TPFinal\TPFinalNivel2_Calcagno\negocio\obj\Release\negocio.pdb
