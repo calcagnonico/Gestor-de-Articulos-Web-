@@ -89,20 +89,26 @@ namespace negocio
 
 
         //Metodo que devuelve una lista de objetos que obtiene a traves de una consulta embebida en la BD
-        public List<Articulo> listarConSP()
+        public List<Articulo> listarConSP(int id = 0)
         {
 
-            //SqlConnection conexion = new SqlConnection();
-            //SqlCommand comando = new SqlCommand();1
-            //SqlDataReader lector;
             List<Articulo> lista = new List<Articulo>();
             AccesoBD datos = new AccesoBD();
 
             try
             {
                 //Seteamos procedimiento almacenado
-                datos.setearProcedimiento("StoredListarActivos");
+                if (id == 0)
+                {
+                    datos.setearProcedimiento("StoredListar");
+                }
+                else
+                { 
+                datos.setearProcedimiento("StoredListarId");
+                datos.setearParametro("@Id", id);
+                }
                 //Ejecutamos
+
                 datos.ejecutarLectura();
 
                 while (datos.Lectorbd.Read())
@@ -114,6 +120,8 @@ namespace negocio
                     aux.artdescripcion = (string)datos.Lectorbd.GetString(3);
                     aux.artimagen = (string)datos.Lectorbd.GetString(4);
                     aux.artprecio = (decimal)datos.Lectorbd.GetDecimal(5);
+                    aux.artestado = (bool)datos.Lectorbd.GetBoolean(10);
+
 
                     //Redondeamos a 2 decimales el precio 
                     aux.artprecio = Decimal.Round(aux.artprecio, 2);
@@ -136,7 +144,57 @@ namespace negocio
             }
         }
 
+        public void agregarconSP(Articulo nuevo)
+        {
+            AccesoBD datos = new AccesoBD();
+            try
+            {
+                datos.setearProcedimiento("StoredAgregar");
+                //Setear parametro o escribirlo directamente en la consulta son dos opciones posibles, ambas funcionan
+                datos.setearParametro("@Codigo", nuevo.artcodigo);
+                datos.setearParametro("@Nombre", nuevo.artnombre);
+                datos.setearParametro("@Descripcion", nuevo.artdescripcion);
+                datos.setearParametro("@IdMarca", nuevo.artmarca.Id);
+                datos.setearParametro("@IdCategoria", nuevo.artcategoria.Id);
+                datos.setearParametro("@ImagenUrl", nuevo.artimagen);
+                datos.setearParametro("@Precio", nuevo.artprecio);
+                datos.setearParametro("@Activo", nuevo.artestado);
+                //ejecutamos accion y guardamos el numero que nos devuelve
+                datos.ejecutarAccion();
 
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void modificarconSP(Articulo articulo)
+        {
+            AccesoBD datos = new AccesoBD();
+            try
+            {
+                datos.setearProcedimiento("StoredModificar");
+                datos.setearParametro("@id", articulo.artid);
+                datos.setearParametro("@Codigo", articulo.artcodigo);
+                datos.setearParametro("@Nombre", articulo.artnombre);
+                datos.setearParametro("@Descripcion", articulo.artdescripcion);
+                datos.setearParametro("@IdMarca", articulo.artmarca.Id);
+                datos.setearParametro("@IdCategoria", articulo.artcategoria.Id);
+                datos.setearParametro("@ImagenUrl", articulo.artimagen);
+                datos.setearParametro("@Precio", articulo.artprecio);
+                datos.setearParametro("@Activo", articulo.artprecio);
+                datos.ejecutarAccion();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
 
 
@@ -202,6 +260,27 @@ namespace negocio
             }
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         //Boton restablecer, quita el prefijo OFF- de los articulos para que aparezcan / no aparezcan en el listado 
         public void restablecer(Articulo articulo1)
         {
@@ -262,6 +341,9 @@ namespace negocio
                 {
                     case "Codigo":
                         consulta += "Codigo";
+                        break;
+                    case "Nombre":
+                        consulta += "Nombre";
                         break;
                     case "Marca":
                        consulta += "M.Descripcion";

@@ -24,8 +24,6 @@
             </div>
         </div>
 
-
-
         <%if (chkAvanzado.Checked)
             { %>
         <div class="row">
@@ -34,9 +32,10 @@
                     <asp:Label Text="Campo" ID="lblCampo" runat="server" />
                     <asp:DropDownList runat="server" AutoPostBack="true" CssClass="form-control" id="ddlCampo" OnSelectedIndexChanged="ddlCampo_SelectedIndexChanged" DataTextField="Seleccione">
                         <asp:ListItem Text="Codigo" />
+                        <asp:ListItem Text="Nombre" />
                         <asp:ListItem Text="Marca" />
-                        <asp:ListItem Text="Categoria" />
                         <asp:ListItem Text="Descripcion" />
+                        <asp:ListItem Text="Categoria" />
                     </asp:DropDownList>
                 </div>
             </div>
@@ -73,23 +72,28 @@
         <%} %>
     </div>
 
-
-
-
-      <asp:GridView ID="listaArticulos" runat="server" 
-         CssClass= "table table-striped table-bordered table-condensed" AutoGenerateColumns="false">
-        <Columns>
+    <asp:GridView ID="dgvlistaArticulos" runat="server" 
+                  DataKeyNames="artid"
+                  CssClass= "table table-striped table-bordered table-condensed" 
+                  AutoGenerateColumns="false"
+                  OnSelectedIndexChanged="dgvlistaArticulos_SelectedIndexChanged"
+                  OnPageIndexChanging="dgvlistaArticulos_PageIndexChanging"
+                  EnableSortingAndPagingCallbacks="false"
+                  AllowPaging="True" 
+                  PageSize="3">
+            <Columns>
+            <asp:BoundField HeaderText="Id"            DataField="artid" />
             <asp:BoundField HeaderText="Codigo"        DataField="artcodigo" />
             <asp:BoundField HeaderText="Nombre"        DataField="artnombre" />
             <asp:BoundField HeaderText="Descripcion"   DataField="artdescripcion" />
             <asp:BoundField HeaderText="Marca"         DataField="artmarca.descripcion" />
             <asp:BoundField HeaderText="Categoria"     DataField="artcategoria.descripcion" />
             <asp:BoundField HeaderText="Precio"        DataField="artprecio" />
-       <asp:CommandField HeaderText="Gestionar" ShowSelectButton="true" SelectText="✍" />
-
-        </Columns>
+            <asp:CheckBoxField HeaderText="Estado"     DataField="artestado" />
+            <asp:CommandField HeaderText="Gestionar"   ShowSelectButton="true" SelectText="✍" />
+            </Columns>
     </asp:GridView>
-
+    <a href="Articulo.aspx" class="btn btn-primary">Agregar</a>
     </main>
 
 </asp:Content>

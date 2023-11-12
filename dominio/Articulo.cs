@@ -44,10 +44,17 @@ namespace dominio
 
         public string artimagen { get; set; }
 
-    //  Al igualar un Articulo con otro art1 = art2,  cuando se modifica una propiedad de uno se modifica la del otro. Entonces si quremos hacer esto pero que nos lo haga como una instancia distinta
-    //  Usamos el Clone.
-    //  Este metododo clone dentro del articulo nos sirve para clonarlo y que sus propiedades NO hagan referencia al otro articulo
-    public object Clone()
+        [DisplayName("Estado")]
+        public bool artestado { get; set; }
+
+
+
+
+
+        //  Al igualar un Articulo con otro art1 = art2,  cuando se modifica una propiedad de uno se modifica la del otro. Entonces si quremos hacer esto pero que nos lo haga como una instancia distinta
+        //  Usamos el Clone.
+        //  Este metododo clone dentro del articulo nos sirve para clonarlo y que sus propiedades NO hagan referencia al otro articulo
+        public object Clone()
     {
         var clonedArticle = new Articulo
         {

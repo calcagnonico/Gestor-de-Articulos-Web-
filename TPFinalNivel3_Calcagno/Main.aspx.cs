@@ -19,10 +19,9 @@ namespace TPFinalNivel3_Calcagno
             {
                 ArticuloNegocio negocio = new ArticuloNegocio();
                 Session.Add("listaArticulos", negocio.listarConSP());
-                listaArticulos.DataSource = Session["listaArticulos"];
-                listaArticulos.DataBind();
+                dgvlistaArticulos.DataSource = Session["listaArticulos"];
+                dgvlistaArticulos.DataBind();
             }
-
         }
 
         protected void chkAvanzado_CheckedChanged(object sender, EventArgs e)
@@ -35,8 +34,8 @@ namespace TPFinalNivel3_Calcagno
         {
             List<Articulo> lista = (List<Articulo>)Session["listaArticulos"];
             List<Articulo> listaFiltrada = lista.FindAll(x => x.artnombre.ToUpper().Contains(txtFiltro.Text.ToUpper()));
-            listaArticulos.DataSource = listaFiltrada;
-            listaArticulos.DataBind();
+            dgvlistaArticulos.DataSource = listaFiltrada;
+            dgvlistaArticulos.DataBind();
         }
 
         protected void ddlCampo_SelectedIndexChanged(object sender, EventArgs e)
@@ -53,31 +52,40 @@ namespace TPFinalNivel3_Calcagno
                 ddlCriterio.Items.Add("Contiene");
                 ddlCriterio.Items.Add("Comienza con");
                 ddlCriterio.Items.Add("Termina con");
+
             }
         }
 
-        protected void btnBuscar_Click(object sender, EventArgs e)
+         protected void btnBuscar_Click(object sender, EventArgs e)
         {
             try
             {
-                ArticuloNegocio negocio = new ArticuloNegocio();
-                listaArticulos.DataSource = negocio.filtrar(
-                ddlCampo.SelectedItem.ToString(),
-                ddlCriterio.SelectedItem.ToString(),
-                txtFiltroAvanzado.Text,
-                ddlEstado.SelectedItem.ToString());
-                listaArticulos.DataBind();
+                    ArticuloNegocio negocio = new ArticuloNegocio();
+                    dgvlistaArticulos.DataSource = negocio.filtrar(
+                    ddlCampo.SelectedItem.ToString(),
+                    ddlCriterio.SelectedItem.ToString(),
+                    txtFiltroAvanzado.Text,
+                    ddlEstado.SelectedItem.ToString());
+                    dgvlistaArticulos.DataBind();
             }
             catch (Exception ex)
             {
                 Session.Add("error", ex);
                 throw;
             }
-
-
-
-
         }
 
+        protected void dgvlistaArticulos_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string id = dgvlistaArticulos.SelectedDataKey.Value.ToString();
+            Response.Redirect("Articulo.aspx?id=" + id);
+        }
+
+        protected void dgvlistaArticulos_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            dgvlistaArticulos.DataSource = Session["listaArticulos"];
+            dgvlistaArticulos.PageIndex = e.NewPageIndex;
+            dgvlistaArticulos.DataBind();
+        }
     }
 }

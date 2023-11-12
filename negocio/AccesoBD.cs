@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Principal;
@@ -66,8 +67,14 @@ namespace negocio
         //Este metodo recibe el nombre de un procedimiento almacenado y lo setea
         public void setearProcedimiento(string pa)
         {
+
             comando.CommandType = System.Data.CommandType.StoredProcedure;
             comando.CommandText = pa;
+
+            //Esta linea sirve para setearle un parametro al stored procedure q vamos a llamar (no lo usamos en este caso)
+            //Podriamos hacer un stored que pida un id
+            //comando.Parameters.Add("@Id", SqlDbType.VarChar).Value = editar;
+
         }
 
         //Metodo para cerrar conexion con la bd
@@ -96,10 +103,14 @@ namespace negocio
         //Metodo que ejecuta la accion sobre la BD pero nos devuelve el indice editado
         public int ejecutarAccionconreturn()
         {
+
             comando.Connection = conexionbd;
             try
             {
                 conexionbd.Open();
+                comando.ExecuteScalar().ToString();
+
+
                 return int.Parse(comando.ExecuteScalar().ToString());
             }
             catch (Exception ex)
