@@ -17,77 +17,6 @@ namespace negocio
         //Creamos variable que tendra el numero del articulo para devolverla
         int idartagregado;
 
-        //Metodo que devuelve una lista de objetos que obtiene a traves de una consulta a la BD
-        public List<Articulo> listar(bool tipo)
-        {
-            List<Articulo> lista = new List<Articulo>();
-            SqlConnection conexion = new SqlConnection();
-            SqlCommand comando = new SqlCommand(); 
-            SqlDataReader lector;
-            AccesoBD datos = new AccesoBD();
-
-            try
-            {
-                //El server lo toma de una appsetting 
-                Configuration server = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                conexion.ConnectionString = ("server=" + server.AppSettings.Settings["server"].Value + "; database=CATALOGO_DB; integrated security=true");
-
-
-                //Use el -OFF para articulos borrados logicamente
-                //cuando llamamos al metodo le mandamos la bandera "tipo" prendida o apagada dependiendo de deonde lo estamos llamando (Main o reestablecer)
-                comando.CommandType = System.Data.CommandType.Text;
-                if ( tipo )
-                {
-                    comando.CommandText = "Select A.Id, Codigo, Nombre, A.Descripcion, ImagenUrl, Precio, C.Id as IdCategoria, C.Descripcion as Categoria, M.Id as IdMarca, M.Descripcion as Marca from ARTICULOS A, CATEGORIAS C, MARCAS M Where A.IdCategoria = C.Id And A.IdMarca = M.Id AND Codigo not like 'OFF-%'";
-                }
-                else
-                {
-                    comando.CommandText = "Select A.Id, SUBSTRING (Codigo, 5, 15), Nombre, A.Descripcion, ImagenUrl, Precio, C.Id as IdCategoria, C.Descripcion as Categoria, M.Id as IdMarca, M.Descripcion as Marca from ARTICULOS A, CATEGORIAS C, MARCAS M Where A.IdCategoria = C.Id And A.IdMarca = M.Id AND Codigo like 'OFF-%'";
-                }
-
-                comando.Connection = conexion;
-                conexion.Open();
-                lector = comando.ExecuteReader();
-
-
-                //Con un While cargamos la lista y luego la retornamos
-                while (lector.Read())
-                {
-                    Articulo aux = new Articulo();
-                    aux.artid = (int)lector.GetInt32(0);
-                    aux.artcodigo = (string)lector.GetString(1);
-                    aux.artnombre = (string)lector.GetString(2);
-                    aux.artdescripcion = (string)lector.GetString(3);
-                    aux.artimagen = (string)lector.GetString(4);
-                    aux.artprecio = (decimal)lector.GetDecimal(5);
-
-                    //Redondeamos a 2 decimales el precio 
-                    aux.artprecio = Decimal.Round(aux.artprecio, 2);
-
-                    aux.artmarca = new Marca();
-                    aux.artmarca.Id = (int)lector.GetInt32(8);
-                    aux.artmarca.Descripcion = (string)lector.GetString(9);
-
-                    aux.artcategoria = new Categoria();
-                    aux.artcategoria.Id = (int)lector.GetInt32(6);
-                    aux.artcategoria.Descripcion = (string)lector.GetString(7);
-
-                    lista.Add(aux);
-                }
-
-                conexion.Close();
-                return lista;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-
-
-
-
         //Metodo que devuelve una lista de objetos que obtiene a traves de una consulta embebida en la BD
         public List<Articulo> listarConSP(int id = 0)
         {
@@ -104,8 +33,8 @@ namespace negocio
                 }
                 else
                 { 
-                datos.setearProcedimiento("StoredListarId");
-                datos.setearParametro("@Id", id);
+                    datos.setearProcedimiento("StoredListarId");
+                    datos.setearParametro("@Id", id);
                 }
                 //Ejecutamos
 
@@ -211,6 +140,77 @@ namespace negocio
 
 
 
+
+
+
+
+        //Metodo que devuelve una lista de objetos que obtiene a traves de una consulta a la BD
+        public List<Articulo> listar(bool tipo)
+        {
+            List<Articulo> lista = new List<Articulo>();
+            SqlConnection conexion = new SqlConnection();
+            SqlCommand comando = new SqlCommand();
+            SqlDataReader lector;
+            AccesoBD datos = new AccesoBD();
+
+            try
+            {
+                //El server lo toma de una appsetting 
+                Configuration server = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                conexion.ConnectionString = ("server=" + server.AppSettings.Settings["server"].Value + "; database=CATALOGO_DB; integrated security=true");
+
+
+                //Use el -OFF para articulos borrados logicamente
+                //cuando llamamos al metodo le mandamos la bandera "tipo" prendida o apagada dependiendo de deonde lo estamos llamando (Main o reestablecer)
+                comando.CommandType = System.Data.CommandType.Text;
+                if (tipo)
+                {
+                    comando.CommandText = "Select A.Id, Codigo, Nombre, A.Descripcion, ImagenUrl, Precio, C.Id as IdCategoria, C.Descripcion as Categoria, M.Id as IdMarca, M.Descripcion as Marca from ARTICULOS A, CATEGORIAS C, MARCAS M Where A.IdCategoria = C.Id And A.IdMarca = M.Id AND Codigo not like 'OFF-%'";
+                }
+                else
+                {
+                    comando.CommandText = "Select A.Id, SUBSTRING (Codigo, 5, 15), Nombre, A.Descripcion, ImagenUrl, Precio, C.Id as IdCategoria, C.Descripcion as Categoria, M.Id as IdMarca, M.Descripcion as Marca from ARTICULOS A, CATEGORIAS C, MARCAS M Where A.IdCategoria = C.Id And A.IdMarca = M.Id AND Codigo like 'OFF-%'";
+                }
+
+                comando.Connection = conexion;
+                conexion.Open();
+                lector = comando.ExecuteReader();
+
+
+                //Con un While cargamos la lista y luego la retornamos
+                while (lector.Read())
+                {
+                    Articulo aux = new Articulo();
+                    aux.artid = (int)lector.GetInt32(0);
+                    aux.artcodigo = (string)lector.GetString(1);
+                    aux.artnombre = (string)lector.GetString(2);
+                    aux.artdescripcion = (string)lector.GetString(3);
+                    aux.artimagen = (string)lector.GetString(4);
+                    aux.artprecio = (decimal)lector.GetDecimal(5);
+
+                    //Redondeamos a 2 decimales el precio 
+                    aux.artprecio = Decimal.Round(aux.artprecio, 2);
+
+                    aux.artmarca = new Marca();
+                    aux.artmarca.Id = (int)lector.GetInt32(8);
+                    aux.artmarca.Descripcion = (string)lector.GetString(9);
+
+                    aux.artcategoria = new Categoria();
+                    aux.artcategoria.Id = (int)lector.GetInt32(6);
+                    aux.artcategoria.Descripcion = (string)lector.GetString(7);
+
+                    lista.Add(aux);
+                }
+
+                conexion.Close();
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         //Boton para agregar articulos a la BD
         public int agregar(Articulo nuevo)
         {
@@ -259,27 +259,6 @@ namespace negocio
                 throw;
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         //Boton restablecer, quita el prefijo OFF- de los articulos para que aparezcan / no aparezcan en el listado 
         public void restablecer(Articulo articulo1)
