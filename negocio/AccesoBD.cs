@@ -103,7 +103,6 @@ namespace negocio
         //Metodo que ejecuta la accion sobre la BD pero nos devuelve el indice editado
         public int ejecutarAccionconreturn()
         {
-
             comando.Connection = conexionbd;
             try
             {

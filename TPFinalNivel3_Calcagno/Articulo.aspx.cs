@@ -64,6 +64,8 @@ namespace TPFinalNivel3_Calcagno
                     TxtPrecio.Text = seleccionado.artprecio.ToString();
                     TxtDescripcion.Text = seleccionado.artdescripcion.ToString();
                     TxtImagenUrl.Text = seleccionado.artimagen.ToString();
+                    estado.Checked = seleccionado.artestado;
+
 
                     ddlCategoria.SelectedValue = seleccionado.artcategoria.Id.ToString();
                     ddlMarca.SelectedValue = seleccionado.artmarca.Id.ToString();
@@ -103,7 +105,9 @@ namespace TPFinalNivel3_Calcagno
 
                 nuevo.artprecio = Convert.ToDecimal(TxtPrecio.Text);
                 nuevo.artimagen = TxtImagenUrl.Text;
-                nuevo.artestado = true;
+
+                nuevo.artestado = estado.Checked ? true : false;
+
 
                 if (Request.QueryString["id"] != null)
                 {
@@ -121,11 +125,6 @@ namespace TPFinalNivel3_Calcagno
                 Session.Add("error", ex.ToString());
                 Response.Redirect("Error.aspx");
             }
-        }
-
-        protected void btnInactivar_Click(object sender, EventArgs e)
-        {
-
         }
 
         protected void txtImagenUrl_TextChanged(object sender, EventArgs e)

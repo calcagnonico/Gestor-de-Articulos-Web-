@@ -11,23 +11,25 @@
         <div class="row">
             <section class="col-md-4">
                 <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="floatingInput" placeholder="usuario@email.com">
+
+                <asp:TextBox ID="txtEmail" runat="server" cssclass="form-control" REQUIRED="1" placeholder="usuario@email.com"/>
                 <label for="floatingInput">E-mail</label>
         </div>
         <div class="form-floating">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Password" aria-describedby="form-floating-sizing-sm">
-                <label for="floatingPassword">Contraseña</label>
+                <asp:TextBox runat="server" cssclass="form-control" ID="txtPassword" TextMode="Password"/>
+                <label for="floatingInput">Contraseña</label>
                 <p>
         </div>
         <p>
-        <a href="http://www.asp.net" class="btn btn-primary btn-md">Ingresar &raquo;</a>
+
+        <asp:Button Text="Ingresar" cssclass="btn btn-primary" ID="btnLogin" OnClick="btnLogin_Click" runat="server"/>
+
         <a href="http://www.asp.net" class="btn btn-primary btn-md">Crear usuario &raquo;</a>
         </p>
       </section>
 
       <section class="col-md-4" aria-labelledby="librariesTitle">
       </section>
-
       <section class="col-md-4" aria-labelledby="hostingTitle">
       </section>
       </div>

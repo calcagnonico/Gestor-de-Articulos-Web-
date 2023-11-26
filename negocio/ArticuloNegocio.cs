@@ -51,7 +51,6 @@ namespace negocio
                     aux.artprecio = (decimal)datos.Lectorbd.GetDecimal(5);
                     aux.artestado = (bool)datos.Lectorbd.GetBoolean(10);
 
-
                     //Redondeamos a 2 decimales el precio 
                     aux.artprecio = Decimal.Round(aux.artprecio, 2);
 
@@ -116,7 +115,7 @@ namespace negocio
                 datos.setearParametro("@IdCategoria", articulo.artcategoria.Id);
                 datos.setearParametro("@ImagenUrl", articulo.artimagen);
                 datos.setearParametro("@Precio", articulo.artprecio);
-                datos.setearParametro("@Activo", articulo.artprecio);
+                datos.setearParametro("@Activo", articulo.artestado);
                 datos.ejecutarAccion();
             }
             catch (Exception)

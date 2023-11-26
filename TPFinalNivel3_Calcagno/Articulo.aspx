@@ -63,7 +63,6 @@
                 <br />
                 <asp:Button Text="Aceptar" ID="btnAceptar" CssClass="btn btn-primary" OnClick="btnAceptar_Click" runat="server" />
                 <a href="Main.aspx" class="btn btn-primary">Cancelar</a>
-                <asp:Button Text="Inactivar" ID="btnInactivar" OnClick="btnInactivar_Click" CssClass="btn btn-warning" runat="server" />
                 <asp:Button Text="Eliminar" ID="btnEliminar" OnClick="btnEliminar_Click" CssClass="btn btn-danger" runat="server" />     
                             <p></p>
 
@@ -90,7 +89,7 @@
             <p></p>
                 <label for="Estado" class="form-label">Estado</label>
                 <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                <input class="form-check-input" type="checkbox" runat="server" id="estado">
                 </div>
                 </div>
                 <p></p>
@@ -115,5 +114,5 @@
          </div>
 
 
-    </div>
+
 </asp:Content>
