@@ -107,9 +107,6 @@ namespace negocio
             try
             {
                 conexionbd.Open();
-                comando.ExecuteScalar().ToString();
-
-
                 return int.Parse(comando.ExecuteScalar().ToString());
             }
             catch (Exception ex)

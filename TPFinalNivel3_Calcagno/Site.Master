@@ -10,12 +10,19 @@
     <title><%: Page.Title %> - Gestión de Artículos</title>
 
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+
+
+        <link href="Content/bootstrap.min.css" rel="stylesheet" />
+        <link href="Scripts/bootstrap.bundle.min.js" rel="stylesheet" />
 
 </head>
+
 <body>
+
+
+
     <form runat="server">
-        <asp:ScriptManager runat="server">
+                <asp:ScriptManager runat="server">
             <Scripts>
                 <%--To learn more about bundling scripts in ScriptManager see https://go.microsoft.com/fwlink/?LinkID=301884 --%>
                 <%--Framework Scripts--%>
@@ -30,26 +37,73 @@
                 <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
                 <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
                 <asp:ScriptReference Name="WebFormsBundle" />
-                <%--Site Scripts--%>
+                 <%--Site Scripts--%>
             </Scripts>
         </asp:ScriptManager>
+        
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
 
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
-            <div class="container">
-                <a class="navbar-brand" runat="server" href="~/">Gestión de Artículos</a>
-                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Alternar navegación" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
+
+        
+
+        <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">Gestión de Artículos</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/">Inicio</a></li>
+
+
+                        <% if (negocio.Seguridad.sesionActiva(Session["usuario"])){ %>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Main">Listado</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Tarjetas">Tarjetas</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Favoritos">Favoritos</a></li>
+                        <%
+                       }
+                       else {
+                    %>
+                    <li class="nav-item"><a class="nav-link" runat="server" href="~/">Inicio</a></li>
+                    <%} %>
+
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/About">Acerca de</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Contact">Contacto</a></li>
                     </ul>
                 </div>
+                <div class="d-flex">
+                    <% if (!negocio.Seguridad.sesionActiva(Session["usuario"])){ %>
+                    
+               
+                    
+                    <a href="Default.aspx" class="btn btn-success me-2">Login</a>
+                            <a href="Registro.aspx" class="btn btn-outline-primary m-auto">Registrarse</a>
+
+                    <%
+                       }
+                       else {
+                    %>
+                            <asp:Label id="lblUser" Text="user" CssClass="text-light m-auto me-2" runat="server" />
+                                        <div class="dropdown">
+                            <asp:Image ID="imgAvatar" 
+                                role="button" 
+                                data-bs-toggle="dropdown" aria-expanded="false" style="height:40px; width:40px; border-radius:50%;" runat="server" />
+
+
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><a class="dropdown-item" href="Perfil">Mi Perfil</a></li>
+    <li><a class="dropdown-item" href="Opciones">Opciones</a></li>
+<asp:Button Text="Salir" ID="Button2" class="dropdown-item" OnClick="btnSalir_Click" runat="server" />
+  </ul>
+</div>
+
+
+                    <%} %>
+
+                </div>
             </div>
         </nav>
+
         <div class="container body-content">
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
@@ -62,5 +116,9 @@
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/Scripts/bootstrap.js") %>
     </asp:PlaceHolder>
+
+
+
+
 </body>
 </html>

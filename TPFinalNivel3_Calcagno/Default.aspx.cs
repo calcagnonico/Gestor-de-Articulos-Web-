@@ -5,16 +5,21 @@ using negocio;
 
 namespace TPFinalNivel3_Calcagno
 {
-    public partial class _Default : Page
+    public partial class Default : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (Seguridad.sesionActiva(Session["usuario"]))
+            {
+                Response.Redirect("Main.aspx", false);
+            }
+            else
+            {
+            }
         }
-
         protected void btnLogin_Click(object sender, EventArgs e)
         {
-            Usuario trainee = new Usuario();
+            Usuario usuario = new Usuario();
             UsuarioNegocio negocio = new UsuarioNegocio();
             try
             {
@@ -24,15 +29,12 @@ namespace TPFinalNivel3_Calcagno
                     Response.Redirect("Error.aspx");
                 }
 
-                trainee.Email = txtEmail.Text;
-                trainee.Pass = txtPassword.Text;
-                if (negocio.Login(trainee))
+                usuario.Email = txtEmail.Text;
+                usuario.Pass = txtPassword.Text;
+                if (negocio.Login(usuario))
                 {
-                   // Session.Add("trainee", trainee);
-                   // Response.Redirect("Main.aspx", false);
-
-                    Session.Add("error", "Ingreso correcto..");
-                    Response.Redirect("Error.aspx");
+                   Session.Add("usuario", usuario);
+                   Response.Redirect("Main.aspx", false);
 
                 }
                 else

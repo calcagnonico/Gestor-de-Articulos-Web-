@@ -23,9 +23,10 @@ namespace negocio
 
             try
             {
-                datos.setearProcedimiento("insertarNuevo");
-                datos.setearParametro("@email", nuevo.Email);
-                datos.setearParametro("@pass", nuevo.Pass);
+                datos.setearProcedimiento("StoredAgregarUsuario");
+                datos.setearParametro("@Email", nuevo.Email);
+                datos.setearParametro("@Pass", nuevo.Pass);
+                datos.setearParametro("@Nombre", nuevo.Nombre);
                 return datos.ejecutarAccionconreturn();
             }
             catch (Exception ex)
@@ -36,7 +37,6 @@ namespace negocio
             {
                 datos.cerrarConexion();
             }
-
         }
 
         public void actualizar(Usuario user)
@@ -44,15 +44,14 @@ namespace negocio
             AccesoBD datos = new AccesoBD();
             try
             {
-                datos.setearConsulta("Update USERS set imagenPerfil = @imagen, Nombre = @nombre, Apellido = @apellido, fechaNacimiento = @fecha Where Id = @id");
-                //datos.setearParametro("@imagen", user.ImagenPerfil != null ? user.ImagenPerfil : (object)DBNull.Value);
-                datos.setearParametro("@imagen", (object)user.ImagenPerfil ?? DBNull.Value);
+                datos.setearConsulta("Update USERS set UrlImagenPerfil = @imagen, Nombre = @nombre, Apellido = @apellido, fechaNacimiento = @fecha Where Id = @id");
+                datos.setearParametro("@imagen", user.ImagenPerfil != null ? user.ImagenPerfil : (object)DBNull.Value);
+                //datos.setearParametro("@imagen", (object)user.ImagenPerfil ?? DBNull.Value);
                 datos.setearParametro("@nombre", user.Nombre);
                 datos.setearParametro("@apellido", user.Apellido);
                 datos.setearParametro("@fecha", user.FechaNacimiento);
                 datos.setearParametro("@id", user.Id);
                 datos.ejecutarAccion();
-
             }
             catch (Exception ex)
             {
@@ -70,7 +69,7 @@ namespace negocio
             try
             {
                 //Le faltaria agregar la fecha de nacimiento.
-                datos.setearConsulta("Select id, email, pass, admin, urlimagenPerfil, nombre, apellido from USERS Where email = @email And pass = @pass");
+                datos.setearConsulta("Select id, email, pass, admin, urlimagenPerfil, nombre, apellido, fechaNacimiento from USERS Where email = @email And pass = @pass");
                 datos.setearParametro("@email", trainee.Email);
                 datos.setearParametro("@pass", trainee.Pass);
                 datos.ejecutarLectura();
@@ -79,13 +78,13 @@ namespace negocio
                     trainee.Id = (int)datos.Lectorbd["id"];
                     trainee.Admin = (bool)datos.Lectorbd["admin"];
                     if (!(datos.Lectorbd["urlimagenPerfil"] is DBNull))
-                        trainee.ImagenPerfil = (string)datos.Lectorbd["imagenPerfil"];
+                        trainee.ImagenPerfil = (string)datos.Lectorbd["urlimagenPerfil"];
                     if (!(datos.Lectorbd["nombre"] is DBNull))
                         trainee.Nombre = (string)datos.Lectorbd["nombre"];
                     if (!(datos.Lectorbd["apellido"] is DBNull))
                         trainee.Apellido = (string)datos.Lectorbd["apellido"];
-                    //if (!(datos.Lectorbd["fechaNacimiento"] is DBNull))
-                    //    trainee.FechaNacimiento = DateTime.Parse(datos.Lectorbd["fechaNacimiento"].ToString());
+                    if (!(datos.Lectorbd["fechaNacimiento"] is DBNull))
+                        trainee.FechaNacimiento = DateTime.Parse(datos.Lectorbd["fechaNacimiento"].ToString());
 
                     return true;
                 }

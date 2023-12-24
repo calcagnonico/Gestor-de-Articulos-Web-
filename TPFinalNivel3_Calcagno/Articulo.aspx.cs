@@ -16,10 +16,14 @@ namespace TPFinalNivel3_Calcagno
     public partial class WebForm2 : System.Web.UI.Page
     {
         public bool ConfirmaEliminacion { get; set; }
+        public bool modificar { get; set; }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             TxtId.Enabled = false;
             ConfirmaEliminacion = false;
+            modificar = false;
+
             try
 			{
                 //configuración inicial de la pantalla.
@@ -44,13 +48,13 @@ namespace TPFinalNivel3_Calcagno
                 string id = Request.QueryString["id"] != null ? Request.QueryString["id"].ToString() : "";
                 if (id != "" && !IsPostBack)
                 {
+                    modificar = true;
                     Titulo.Text = "Modificar Articulo";
                     ArticuloNegocio negocio = new ArticuloNegocio();
 
                     //Articulo seleccionado = negocio.listarConSP(a);
-
-                   List<Articulo> a = negocio.listarConSP(Convert.ToInt32(id));
-                   Articulo seleccionado = a[0];
+                    List<Articulo> a = negocio.listarConSP(Convert.ToInt32(id));
+                    Articulo seleccionado = a[0];
                     //Articulo seleccionado = (negocio.listarConSP(Convert.ToInt32(id))[0]);
 
 
@@ -67,13 +71,15 @@ namespace TPFinalNivel3_Calcagno
                     estado.Checked = seleccionado.artestado;
 
 
+                    //CHEQUEAR SI ES FAVORITO
+                    Usuario user = (Usuario)Session["usuario"];
+                    List<Articulo> fav = negocio.listarConSPFavoritos(Convert.ToInt32(user.Id));
+                    checkbox.Checked = negocio.Chequearfav(user.Id, seleccionado.artid);
+
                     ddlCategoria.SelectedValue = seleccionado.artcategoria.Id.ToString();
                     ddlMarca.SelectedValue = seleccionado.artmarca.Id.ToString();
                     txtImagenUrl_TextChanged(sender, e);
 
-                    //configurar acciones
-                    //if (!seleccionado.Activo)
-                    //    btnInactivar.Text = "Reactivar";
                 }
                 else
                 {
@@ -108,16 +114,30 @@ namespace TPFinalNivel3_Calcagno
 
                 nuevo.artestado = estado.Checked ? true : false;
 
-
+        
                 if (Request.QueryString["id"] != null)
                 {
-                    nuevo.artid = int.Parse(TxtId.Text);
-                    negocio.modificarconSP(nuevo);
+                    nuevo.artid = int.Parse(Request.QueryString["id"]);
+                    negocio.modificarconSP(nuevo); 
                 }
                 else
                 {
-                    negocio.agregarconSP(nuevo);
+                    nuevo.artid = negocio.agregarconreturnSP(nuevo);
                 }
+
+
+                Usuario user = (Usuario)Session["usuario"];
+               if (checkbox.Checked)
+                {
+                    if(!negocio.Chequearfav(user.Id, nuevo.artid))
+                    negocio.Agregarafav(user.Id, nuevo.artid);
+                }
+               else
+                {
+                    if (negocio.Chequearfav(user.Id, nuevo.artid))
+                        negocio.Eliminarfav(user.Id, nuevo.artid);
+                }
+
                 Response.Redirect("Main.aspx", false);
             }
             catch (Exception ex)
@@ -139,6 +159,19 @@ namespace TPFinalNivel3_Calcagno
 
         protected void btnConfirmaEliminar_Click(object sender, EventArgs e)
         {
+            try
+            {
+                Articulo art = (Articulo)Session["ArticuloSeleccionado"];
+                ArticuloNegocio negocio = new ArticuloNegocio();
+                negocio.EliminarconSP(art.artid);
+                Response.Redirect("Main.aspx", false);
+
+            }
+            catch (Exception ex)
+            {
+                Session.Add("error", ex.ToString());
+                Response.Redirect("Error.aspx");
+            }
 
         }
     }

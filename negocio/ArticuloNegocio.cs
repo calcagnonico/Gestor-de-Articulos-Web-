@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,8 +15,8 @@ namespace negocio
 {
     public class ArticuloNegocio
     {
-        //Creamos variable que tendra el numero del articulo para devolverla
-        int idartagregado;
+        //Creamos variable que tendra el id del usuario
+        int idusuario;
 
         //Metodo que devuelve una lista de objetos que obtiene a traves de una consulta embebida en la BD
         public List<Articulo> listarConSP(int id = 0)
@@ -72,12 +73,87 @@ namespace negocio
             }
         }
 
-        public void agregarconSP(Articulo nuevo)
+        public List<Articulo> listarConSPFavoritos(int Userid)
+        {
+            List<Articulo> lista = new List<Articulo>();
+            AccesoBD datos = new AccesoBD();
+
+            try
+            {
+                //Seteamos procedimiento almacenado
+                    datos.setearProcedimiento("StoredListarFav");
+                    datos.setearParametro("@IdUser", Userid);
+                //Ejecutamos
+
+                datos.ejecutarLectura();
+
+                while (datos.Lectorbd.Read())
+                {
+                    Articulo aux = new Articulo();
+                    aux.artid = (int)datos.Lectorbd.GetInt32(0);
+                    aux.artcodigo = (string)datos.Lectorbd.GetString(1);
+                    aux.artnombre = (string)datos.Lectorbd.GetString(2);
+                    aux.artdescripcion = (string)datos.Lectorbd.GetString(3);
+                    aux.artimagen = (string)datos.Lectorbd.GetString(4);
+                    aux.artprecio = (decimal)datos.Lectorbd.GetDecimal(5);
+                    aux.artestado = (bool)datos.Lectorbd.GetBoolean(10);
+
+                    //Redondeamos a 2 decimales el precio 
+                    aux.artprecio = Decimal.Round(aux.artprecio, 2);
+
+                    aux.artmarca = new Marca();
+                    aux.artmarca.Id = (int)datos.Lectorbd.GetInt32(8);
+                    aux.artmarca.Descripcion = (string)datos.Lectorbd.GetString(9);
+
+                    aux.artcategoria = new Categoria();
+                    aux.artcategoria.Id = (int)datos.Lectorbd.GetInt32(6);
+                    aux.artcategoria.Descripcion = (string)datos.Lectorbd.GetString(7);
+
+                    lista.Add(aux);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        public bool Chequearfav(int userId, int Artid)
+        {
+            bool bandera = false;
+            List<Articulo> fav = listarConSPFavoritos(Convert.ToInt32(userId));
+
+                    if (fav != null) 
+                    {
+                        foreach (var i in fav)
+                        {
+                            if (i.artid == (Convert.ToInt32(Artid)))
+                                {
+                            bandera = true;
+                                }
+                            else
+                                {
+                                }
+                        }
+                    }
+                    else
+                    {
+                     bandera = false;
+                    }
+
+            return bandera;
+        
+        }
+
+
+        public int agregarconreturnSP(Articulo nuevo)
         {
             AccesoBD datos = new AccesoBD();
             try
             {
-                datos.setearProcedimiento("StoredAgregar");
+                datos.setearProcedimiento("StoredAgregarconreturn");
                 //Setear parametro o escribirlo directamente en la consulta son dos opciones posibles, ambas funcionan
                 datos.setearParametro("@Codigo", nuevo.artcodigo);
                 datos.setearParametro("@Nombre", nuevo.artnombre);
@@ -88,8 +164,7 @@ namespace negocio
                 datos.setearParametro("@Precio", nuevo.artprecio);
                 datos.setearParametro("@Activo", nuevo.artestado);
                 //ejecutamos accion y guardamos el numero que nos devuelve
-                datos.ejecutarAccion();
-
+                return datos.ejecutarAccionconreturn();
             }
             catch (Exception ex)
             {
@@ -107,7 +182,7 @@ namespace negocio
             try
             {
                 datos.setearProcedimiento("StoredModificar");
-                datos.setearParametro("@id", articulo.artid);
+                datos.setearParametro("@Id", articulo.artid);
                 datos.setearParametro("@Codigo", articulo.artcodigo);
                 datos.setearParametro("@Nombre", articulo.artnombre);
                 datos.setearParametro("@Descripcion", articulo.artdescripcion);
@@ -122,25 +197,41 @@ namespace negocio
             {
                 throw;
             }
+            finally
+            {
+                datos.cerrarConexion();
+            }
         }
 
 
 
+        public void EliminarconSP(int artid)
+        {
+            AccesoBD datos = new AccesoBD();
+            datos.setearProcedimiento("StoredEliminar");
+            datos.setearParametro("@IdUser", artid);
+            datos.ejecutarLectura();
+        }
 
+        public void Agregarafav(int iduser, int idart)
+        {
+            AccesoBD datos = new AccesoBD();
+            datos.setearProcedimiento("StoredAgregarFav");
+            //Setear parametro o escribirlo directamente en la consulta son dos opciones posibles, ambas funcionan
+            datos.setearParametro("@IdUser", iduser);
+            datos.setearParametro("@IdArticulo", idart);
+            datos.ejecutarAccion();
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+        public void Eliminarfav(int iduser, int idart)
+        {
+            AccesoBD datos = new AccesoBD();
+            datos.setearProcedimiento("StoredEliminarFav");
+            //Setear parametro o escribirlo directamente en la consulta son dos opciones posibles, ambas funcionan
+            datos.setearParametro("@IdUser", iduser);
+            datos.setearParametro("@IdArticulo", idart);
+            datos.ejecutarAccion();
+        }
 
 
         //Metodo que devuelve una lista de objetos que obtiene a traves de una consulta a la BD
@@ -210,31 +301,7 @@ namespace negocio
             }
         }
 
-        //Boton para agregar articulos a la BD
-        public int agregar(Articulo nuevo)
-        {
-            AccesoBD datos = new AccesoBD();
-            try 
-	        {
-                datos.setearConsulta("Insert into ARTICULOS (Codigo, Nombre, Descripcion, IdMarca, IdCategoria, ImagenUrl, Precio) output inserted.ID values(@ArtCodigo, '" + nuevo.artnombre + "', '" + nuevo.artdescripcion + "', @idMarca, @idCategoria ,'" + nuevo.artimagen + "', '" + nuevo.artprecio + "')");
-                //Setear parametro o escribirlo directamente en la consulta son dos opciones posibles, ambas funcionan
-                datos.setearParametro("@ArtCodigo", nuevo.artcodigo);
-                datos.setearParametro("@IdMarca", nuevo.artmarca.Id);
-                datos.setearParametro("@IdCategoria", nuevo.artcategoria.Id);    
-                //ejecutamos accion y guardamos el numero que nos devuelve
-                idartagregado = datos.ejecutarAccionconreturn();
-                //devolvemos el numero que nos devolvio
-                return idartagregado;
-            }
-	        catch (Exception ex)
-	        {
-		    throw ex;
-	        }
-            finally
-            { 
-                datos.cerrarConexion();
-            } 
-        }
+
 
         //Boton modificar articulos
         public void modificar(Articulo articulo) 
@@ -388,5 +455,7 @@ namespace negocio
                 throw ex;
             }
         }
+
+
     }
 }

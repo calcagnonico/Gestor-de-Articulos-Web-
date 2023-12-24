@@ -1,8 +1,10 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Main.aspx.cs" Inherits="TPFinalNivel3_Calcagno.Main" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Favoritos.aspx.cs" Inherits="TPFinalNivel3_Calcagno.Favoritos" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-     <main>
-     <section class="row" aria-labelledby="aspnetTitle">
+
+
+          <main>
+      <section class="row" aria-labelledby="aspnetTitle">
             <p></p>
             <h2 id="aspnetTitle">Gestionar Articulos</h2>
      </section>
@@ -16,12 +18,11 @@
         </div>
         <div class="col-6" style="display: flex; flex-direction: column; justify-content: flex-end;">
             <div class="mb-3">
-                 <asp:CheckBox Text="Filtro Avanzado" 
+                <asp:CheckBox Text="Filtro Avanzado" 
                     CssClass="" ID="chkAvanzado" runat="server" 
                     AutoPostBack="true"
-                    OnCheckedChanged="chkAvanzado_CheckedChanged"
-                    clientIdMode="Static"
-                     />
+                    OnCheckedChanged="chkAvanzado_CheckedChanged"/>
+
             </div>
         </div>
 
@@ -95,5 +96,18 @@
     </asp:GridView>
     <a href="Articulo.aspx" class="btn btn-primary">Agregar</a>
     </main>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </asp:Content>

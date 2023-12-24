@@ -9,7 +9,7 @@ using dominio;
 
 namespace TPFinalNivel3_Calcagno
 {
-    public partial class Main : System.Web.UI.Page
+    public partial class Favoritos : System.Web.UI.Page
     {
         public bool FiltroAvanzado { get; set; }
         protected void Page_Load(object sender, EventArgs e)
@@ -17,12 +17,20 @@ namespace TPFinalNivel3_Calcagno
             FiltroAvanzado = chkAvanzado.Checked;
             if (!IsPostBack)
             {
-                ArticuloNegocio negocio = new ArticuloNegocio();
-                Session.Add("listaArticulos", negocio.listarConSP());
-                dgvlistaArticulos.DataSource = Session["listaArticulos"];
-                dgvlistaArticulos.DataBind();
+                if (!Seguridad.sesionActiva(Session["usuario"]))
+                Response.Redirect("Default.aspx", false);
+                else
+                {
+                    ArticuloNegocio negocio = new ArticuloNegocio();
+                    Usuario user = (Usuario)Session["usuario"];
+                    Session.Add("listaFavoritos", negocio.listarConSPFavoritos(user.Id));
+                    dgvlistaArticulos.DataSource = Session["listaFavoritos"];
+                    dgvlistaArticulos.DataBind();
+                }
+
             }
         }
+
 
         protected void chkAvanzado_CheckedChanged(object sender, EventArgs e)
         {
@@ -32,7 +40,7 @@ namespace TPFinalNivel3_Calcagno
 
         protected void filtro_TextChanged(object sender, EventArgs e)
         {
-            List<Articulo> lista = (List<Articulo>)Session["listaArticulos"];
+            List<Articulo> lista = (List<Articulo>)Session["listaFavoritos"];
             List<Articulo> listaFiltrada = lista.FindAll(x => x.artnombre.ToUpper().Contains(txtFiltro.Text.ToUpper()));
             dgvlistaArticulos.DataSource = listaFiltrada;
             dgvlistaArticulos.DataBind();
@@ -56,17 +64,17 @@ namespace TPFinalNivel3_Calcagno
             }
         }
 
-         protected void btnBuscar_Click(object sender, EventArgs e)
+        protected void btnBuscar_Click(object sender, EventArgs e)
         {
             try
             {
-                    ArticuloNegocio negocio = new ArticuloNegocio();
-                    dgvlistaArticulos.DataSource = negocio.filtrar(
-                    ddlCampo.SelectedItem.ToString(),
-                    ddlCriterio.SelectedItem.ToString(),
-                    txtFiltroAvanzado.Text,
-                    ddlEstado.SelectedItem.ToString());
-                    dgvlistaArticulos.DataBind();
+                ArticuloNegocio negocio = new ArticuloNegocio();
+                dgvlistaArticulos.DataSource = negocio.filtrar(
+                ddlCampo.SelectedItem.ToString(),
+                ddlCriterio.SelectedItem.ToString(),
+                txtFiltroAvanzado.Text,
+                ddlEstado.SelectedItem.ToString());
+                dgvlistaArticulos.DataBind();
             }
             catch (Exception ex)
             {
@@ -83,9 +91,10 @@ namespace TPFinalNivel3_Calcagno
 
         protected void dgvlistaArticulos_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
-            dgvlistaArticulos.DataSource = Session["listaArticulos"];
+            dgvlistaArticulos.DataSource = Session["listaFavoritos"];
             dgvlistaArticulos.PageIndex = e.NewPageIndex;
             dgvlistaArticulos.DataBind();
         }
+
     }
 }

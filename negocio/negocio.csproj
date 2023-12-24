@@ -46,6 +46,8 @@
   <ItemGroup>
     <Compile Include="AccesoBD.cs" />
     <Compile Include="ArticuloNegocio.cs" />
+    <Compile Include="EmailService.cs" />
+    <Compile Include="Seguridad.cs" />
     <Compile Include="UsuarioNegocio.cs" />
     <Compile Include="MarcaNegocio.cs" />
     <Compile Include="CategoriaNegocio.cs" />

@@ -11,7 +11,7 @@ namespace TPFinalNivel3_Calcagno
 {
 
 
-    public partial class Main
+    public partial class Favoritos
     {
 
         /// <summary>
