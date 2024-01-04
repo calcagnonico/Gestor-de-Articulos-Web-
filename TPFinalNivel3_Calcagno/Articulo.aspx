@@ -3,7 +3,6 @@
 
     
     <style> 
-
 svg{
   cursor:pointer; overflow:visible; width:60px;
   #heart{transform-origin:center; animation:animateHeartOut .3s linear forwards;}
@@ -146,17 +145,43 @@ svg{
 
             <div class="mb-3">
                 <label for="TxtCodigo" class="form-label">Codigo: </label>
-                <asp:TextBox runat="server" ID="TxtCodigo" CssClass="form-control" />
+                <asp:TextBox runat="server" ID="TxtCodigo" CssClass="form-control"  required="1"/>
+                    <asp:RegularExpressionValidator 
+                    Display="Dynamic" 
+                    ControlToValidate="TxtCodigo" 
+                    ID="RegularExpressionValidator5" 
+                    ValidationExpression = "^[\s\S]{0,50}$" 
+                    runat="server" 
+                    ErrorMessage="Solo se permiten 50 caracteres"
+                    ForeColor="Red">
+                   </asp:RegularExpressionValidator>
             </div>
-
             <div class="mb-3">
                 <label for="TxtNombre" class="form-label">Nombre: </label>
-                <asp:TextBox runat="server" ID="TxtNombre" CssClass="form-control" />
+                <asp:TextBox runat="server" ID="TxtNombre" CssClass="form-control" required="1"/>
+                    <asp:RegularExpressionValidator 
+                    Display="Dynamic" 
+                    ControlToValidate="TxtNombre" 
+                    ID="RegularExpressionValidator4" 
+                    ValidationExpression = "^[\s\S]{0,50}$" 
+                    runat="server" 
+                    ErrorMessage="Solo se permiten 50 caracteres"
+                    ForeColor="Red">
+                   </asp:RegularExpressionValidator>
             </div>
 
             <div class="mb-3">
                 <label for="TxtPrecio" class="form-label">Precio: </label>
-                <asp:TextBox runat="server" ID="TxtPrecio" CssClass="form-control" />
+                <asp:TextBox runat="server" ID="TxtPrecio" CssClass="form-control" required="1"/>
+                <asp:RegularExpressionValidator 
+                    Display="Dynamic" 
+                    ControlToValidate="TxtPrecio" 
+                    ID="RegularExpressionValidator3" 
+                    ValidationExpression = "[+-]?([0-9]*[.])?[0-9]?[0-9]" 
+                    runat="server" 
+                    ErrorMessage="Formato incorrecto"
+                    ForeColor="Red">
+                </asp:RegularExpressionValidator>
             </div>
 
             <label for="ddlCategoria" class="form-label">Categoria:</label>
@@ -189,7 +214,7 @@ svg{
                 <br />
                 <br />
                 <asp:Button Text="Aceptar" ID="btnAceptar" CssClass="btn btn-primary" OnClick="btnAceptar_Click" runat="server" />
-                <a href="javascript:history.back()" CssClass="btn btn-primary" ">Cancelar</a>
+                <a href="javascript:history.back()" Class="btn btn-primary" ">Cancelar</a>
 
                 
 
@@ -282,44 +307,52 @@ svg{
 
  </div>
 
-
             <div class="mb-3">
                 <label for="TxtDescripcion" class="form-label">Descripción: </label>
-                <asp:TextBox runat="server" TextMode="MultiLine" style="resize:none" height="140px" resize="none" ID="TxtDescripcion" CssClass="form-control" />
+                <asp:TextBox runat="server" TextMode="MultiLine" style="resize:none" height="140px" resize="none" ID="TxtDescripcion" CssClass="form-control" required="1"/>
+                <asp:RegularExpressionValidator 
+                    Display="Dynamic" 
+                    ControlToValidate="TxtDescripcion" 
+                    ID="RegularExpressionValidator1" 
+                    ValidationExpression = "^[\s\S]{0,150}$" 
+                    runat="server" 
+                    ErrorMessage="Solo se permiten 150 caracteres"
+                    ForeColor="Red">
+                </asp:RegularExpressionValidator>
+
             <p></p>
             <p></p>
                 <label for="Estado" class="form-label">Estado</label>
                 <div class="form-check form-switch">
 
 
-
-
-
-
                 <input class="form-check-input" type="checkbox" runat="server" id="estado" clientIdMode="Static">
-                
-                
-                
-                
-                
-                
-                
-                
-                
+
                 </div>
                 <p></p>
 
            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                 <ContentTemplate>
                     <div class="mb-3">
-
                         <label for="txtImagenUrl" class="form-label">Url Imagen</label>
                         <asp:TextBox runat="server" 
                         ID="TxtImagenUrl" 
                         CssClass="form-control"
                         AutoPostBack="true" 
                         OnTextChanged="txtImagenUrl_TextChanged"
+                        required="1"
                         />
+                    <asp:RegularExpressionValidator 
+                    Display="Dynamic" 
+                    ControlToValidate="TxtImagenUrl" 
+                    ID="RegularExpressionValidator2" 
+                    ValidationExpression = "^[\s\S]{0,1000}$" 
+                    runat="server" 
+                    ErrorMessage="Solo se permiten 1000 caracteres"
+                    ForeColor="Red">
+                    </asp:RegularExpressionValidator>
+
+
                     </div>
                     <asp:Image ImageUrl="https://grupoact.com.ar/wp-content/uploads/2020/04/placeholder.png"
                     runat="server" 

@@ -69,11 +69,18 @@ namespace TPFinalNivel3_Calcagno
             try
             {
                 ArticuloNegocio negocio = new ArticuloNegocio();
-                dgvlistaArticulos.DataSource = negocio.filtrar(
-                ddlCampo.SelectedItem.ToString(),
-                ddlCriterio.SelectedItem.ToString(),
-                txtFiltroAvanzado.Text,
-                ddlEstado.SelectedItem.ToString());
+                //dgvlistaArticulos.DataSource = negocio.filtrar(
+                //ddlCampo.SelectedItem.ToString(),
+                //ddlCriterio.SelectedItem.ToString(),
+                //txtFiltroAvanzado.Text,
+                //ddlEstado.SelectedItem.ToString(),
+                //DropDownMarca.SelectedItem.ToString(),
+                //DropDownCategoria.SelectedItem.ToString()
+                //);
+
+
+
+
                 dgvlistaArticulos.DataBind();
             }
             catch (Exception ex)

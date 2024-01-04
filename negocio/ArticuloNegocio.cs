@@ -375,13 +375,13 @@ namespace negocio
         }
 
         //Consulta sql con filtro de listados 
-        public List<Articulo> filtrar(string criterio, string condicion, string filtro, string estado)
+        public List<Articulo> filtrar(string criterio, string condicion, string filtro, string estado, string marca, string categoria)
         {
             List<Articulo> lista = new List<Articulo>();
             AccesoBD datos = new AccesoBD();
             try
             {
-                string consulta = "Select A.Id, Codigo, Nombre, A.Descripcion, ImagenUrl, Precio, C.Id as IdCategoria, C.Descripcion as Categoria, M.Id as IdMarca, M.Descripcion as Marca from ARTICULOS A, CATEGORIAS C, MARCAS M Where A.IdCategoria = C.Id And A.IdMarca = M.Id And ";
+                string consulta = "Select A.Id, Codigo, Nombre, A.Descripcion, ImagenUrl, Precio, C.Id as IdCategoria, C.Descripcion as Categoria, M.Id as IdMarca, M.Descripcion as Marca, A.Activo from ARTICULOS A, CATEGORIAS C, MARCAS M Where A.IdCategoria = C.Id And A.IdMarca = M.Id And ";
                 switch (criterio)
                 {
                     case "Codigo":
@@ -416,10 +416,58 @@ namespace negocio
                             break;
                     }
 
+
+                switch (marca)
+                {
+                    case "Samsung":
+                        consulta += " And M.Descripcion = 'Samsung'";
+                        break;
+                    case "Apple":
+                        consulta += " And M.Descripcion = 'Apple'";
+                        break;
+                    case "Sony":
+                        consulta += " And M.Descripcion = 'Sony'";
+                        break;
+                    case "Huawei":
+                        consulta += " And M.Descripcion = 'Huawei'";
+                        break;
+                    case "Motorola":
+                        consulta += " And M.Descripcion = 'Motorola'";
+                        break;
+                    default:
+                        consulta += "";
+                        break;
+                }
+
+
+                switch (categoria)
+                {
+                    case "Celulares":
+                        consulta += " And C.Descripcion = 'Celulares'";
+                        break;
+
+                    case "Media":
+                        consulta += " And C.Descripcion = 'Media'";
+                        break;
+
+                    case "Televisores":
+                        consulta += " And C.Descripcion = 'Televisores'";
+                        break;
+
+                    case "Audio":
+                        consulta += " And C.Descripcion = 'Audio'";
+                        break;
+                    default:
+                        consulta += "";
+                        break;
+                }
+
+
                 if (estado == "Activo")
                     consulta += " and A.Activo = 1";
                 else if (estado == "Inactivo")
                     consulta += " and A.Activo = 0";
+
 
                 datos.setearConsulta(consulta);
                 datos.ejecutarLectura();
@@ -433,6 +481,7 @@ namespace negocio
                     aux.artdescripcion = (string)datos.Lectorbd.GetString(3);
                     aux.artimagen = (string)datos.Lectorbd.GetString(4);
                     aux.artprecio = (decimal)datos.Lectorbd.GetDecimal(5);
+                    aux.artestado = (bool)datos.Lectorbd.GetBoolean(10);
 
                     //Redondeamos a 2 decimales el precio 
                     aux.artprecio = Decimal.Round(aux.artprecio, 2);

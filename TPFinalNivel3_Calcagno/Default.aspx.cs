@@ -23,6 +23,7 @@ namespace TPFinalNivel3_Calcagno
             UsuarioNegocio negocio = new UsuarioNegocio();
             try
             {
+                //Validacion de campos en este nivel
                 if (Validaciones.validaTextoVacio(txtEmail) || Validaciones.validaTextoVacio(txtPassword))
                 {
                     Session.Add("error", "Debes completar ambos campos...");
@@ -31,11 +32,12 @@ namespace TPFinalNivel3_Calcagno
 
                 usuario.Email = txtEmail.Text;
                 usuario.Pass = txtPassword.Text;
+
+                //Inicio de sesion o error
                 if (negocio.Login(usuario))
                 {
                    Session.Add("usuario", usuario);
                    Response.Redirect("Main.aspx", false);
-
                 }
                 else
                 {

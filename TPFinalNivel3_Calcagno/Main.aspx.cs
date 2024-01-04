@@ -14,7 +14,8 @@ namespace TPFinalNivel3_Calcagno
         public bool FiltroAvanzado { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
-            FiltroAvanzado = chkAvanzado.Checked;
+
+            //FiltroAvanzado = chkAvanzado.Checked;
             if (!IsPostBack)
             {
                 ArticuloNegocio negocio = new ArticuloNegocio();
@@ -24,16 +25,26 @@ namespace TPFinalNivel3_Calcagno
             }
         }
 
-        protected void chkAvanzado_CheckedChanged(object sender, EventArgs e)
-        {
-            FiltroAvanzado = chkAvanzado.Checked;
-            txtFiltro.Enabled = !FiltroAvanzado;
-        }
+ 
 
         protected void filtro_TextChanged(object sender, EventArgs e)
         {
             List<Articulo> lista = (List<Articulo>)Session["listaArticulos"];
-            List<Articulo> listaFiltrada = lista.FindAll(x => x.artnombre.ToUpper().Contains(txtFiltro.Text.ToUpper()));
+            List<Articulo> listaFiltrada = new List<Articulo>();
+            switch (CriterioFRapido.SelectedIndex)
+            {
+                case 0:
+                    listaFiltrada = lista.FindAll(x => x.artcodigo.ToUpper().Contains(txtFiltro.Text.ToUpper()));
+                    break;
+                case 1:
+                    listaFiltrada = lista.FindAll(x => x.artnombre.ToUpper().Contains(txtFiltro.Text.ToUpper()));
+                    break;
+                case 2:
+                    listaFiltrada = lista.FindAll(x => x.artdescripcion.ToUpper().Contains(txtFiltro.Text.ToUpper()));
+                    break;
+                default:
+                    break;
+            }
             dgvlistaArticulos.DataSource = listaFiltrada;
             dgvlistaArticulos.DataBind();
         }
@@ -52,7 +63,6 @@ namespace TPFinalNivel3_Calcagno
                 ddlCriterio.Items.Add("Contiene");
                 ddlCriterio.Items.Add("Comienza con");
                 ddlCriterio.Items.Add("Termina con");
-
             }
         }
 
@@ -65,7 +75,10 @@ namespace TPFinalNivel3_Calcagno
                     ddlCampo.SelectedItem.ToString(),
                     ddlCriterio.SelectedItem.ToString(),
                     txtFiltroAvanzado.Text,
-                    ddlEstado.SelectedItem.ToString());
+                    ddlEstado.SelectedItem.ToString(),
+                    DropDownMarca.SelectedItem.ToString(),
+                    DropDownCategoria.SelectedItem.ToString()
+                    );
                     dgvlistaArticulos.DataBind();
             }
             catch (Exception ex)
@@ -86,6 +99,36 @@ namespace TPFinalNivel3_Calcagno
             dgvlistaArticulos.DataSource = Session["listaArticulos"];
             dgvlistaArticulos.PageIndex = e.NewPageIndex;
             dgvlistaArticulos.DataBind();
+        }
+
+        protected void TipodeFiltro_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (TipodeFiltro.SelectedItem.Text == "Avanzado")
+            {
+                txtFiltro.Enabled = false;
+                CriterioFRapido.Enabled = false;
+
+                //REVISAR ESTO SI PUEDO LLAMAR AL EVENTO
+                ddlCriterio.Items.Clear();
+                if (ddlCampo.SelectedItem.ToString() == "Número")
+                {
+                    ddlCriterio.Items.Add("Igual a");
+                    ddlCriterio.Items.Add("Mayor a");
+                    ddlCriterio.Items.Add("Menor a");
+                }
+                else
+                {
+                    ddlCriterio.Items.Add("Contiene");
+                    ddlCriterio.Items.Add("Comienza con");
+                    ddlCriterio.Items.Add("Termina con");
+                }
+
+            }
+            else 
+            {
+                txtFiltro.Enabled = true;
+                CriterioFRapido.Enabled = true;
+            }
         }
     }
 }

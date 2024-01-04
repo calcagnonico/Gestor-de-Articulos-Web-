@@ -61,7 +61,7 @@ namespace TPFinalNivel3_Calcagno
         {
             try
             {
-
+                //Esto tiene que estar si o si para que nos valide todos los campos antes de continuar
                 Page.Validate();
                 if (!Page.IsValid)
                     return;
@@ -77,10 +77,6 @@ namespace TPFinalNivel3_Calcagno
                     user.ImagenPerfil = "perfil-" + user.Id + ".jpg";
 
                 }
-
-
-
-
 
 
                 user.Nombre = txtNombre.Text;
