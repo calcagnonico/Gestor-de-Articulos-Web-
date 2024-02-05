@@ -47,7 +47,8 @@ namespace dominio
         [DisplayName("Estado")]
         public bool artestado { get; set; }
 
-
+        [DisplayName("Fav")]
+        public string artfav { get; set; }
 
 
 

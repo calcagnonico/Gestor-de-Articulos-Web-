@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using dominio;
+using static System.Collections.Specialized.BitVector32;
 
 namespace TPFinalNivel3_Calcagno
 {
@@ -14,81 +15,57 @@ namespace TPFinalNivel3_Calcagno
         public bool FiltroAvanzado { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
-            FiltroAvanzado = chkAvanzado.Checked;
+
+
             if (!IsPostBack)
             {
-                if (!Seguridad.sesionActiva(Session["usuario"]))
-                Response.Redirect("Default.aspx", false);
+                Usuario user = (Usuario)Session["usuario"];
+                if (user is null)
+                { }
                 else
                 {
                     ArticuloNegocio negocio = new ArticuloNegocio();
-                    Usuario user = (Usuario)Session["usuario"];
-                    Session.Add("listaFavoritos", negocio.listarConSPFavoritos(user.Id));
-                    dgvlistaArticulos.DataSource = Session["listaFavoritos"];
+                    Session.Add("listaArticulos", negocio.listarConSPFavoritos(user.Id));
+                    dgvlistaArticulos.DataSource = Session["listaArticulos"];
                     dgvlistaArticulos.DataBind();
                 }
-
             }
         }
 
-
-        protected void chkAvanzado_CheckedChanged(object sender, EventArgs e)
-        {
-            FiltroAvanzado = chkAvanzado.Checked;
-            txtFiltro.Enabled = !FiltroAvanzado;
-        }
 
         protected void filtro_TextChanged(object sender, EventArgs e)
         {
-            List<Articulo> lista = (List<Articulo>)Session["listaFavoritos"];
-            List<Articulo> listaFiltrada = lista.FindAll(x => x.artnombre.ToUpper().Contains(txtFiltro.Text.ToUpper()));
-            dgvlistaArticulos.DataSource = listaFiltrada;
-            dgvlistaArticulos.DataBind();
-        }
+            List<Articulo> lista = (List<Articulo>)Session["listaArticulos"];
+            List<Articulo> listaFiltrada = new List<Articulo>();
 
-        protected void ddlCampo_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ddlCriterio.Items.Clear();
-            if (ddlCampo.SelectedItem.ToString() == "Número")
+            if (txtFiltro.Text == "")
             {
-                ddlCriterio.Items.Add("Igual a");
-                ddlCriterio.Items.Add("Mayor a");
-                ddlCriterio.Items.Add("Menor a");
-            }
-            else
-            {
-                ddlCriterio.Items.Add("Contiene");
-                ddlCriterio.Items.Add("Comienza con");
-                ddlCriterio.Items.Add("Termina con");
-
-            }
-        }
-
-        protected void btnBuscar_Click(object sender, EventArgs e)
-        {
-            try
-            {
+                Usuario user = (Usuario)Session["usuario"];
                 ArticuloNegocio negocio = new ArticuloNegocio();
-                //dgvlistaArticulos.DataSource = negocio.filtrar(
-                //ddlCampo.SelectedItem.ToString(),
-                //ddlCriterio.SelectedItem.ToString(),
-                //txtFiltroAvanzado.Text,
-                //ddlEstado.SelectedItem.ToString(),
-                //DropDownMarca.SelectedItem.ToString(),
-                //DropDownCategoria.SelectedItem.ToString()
-                //);
-
-
-
-
+                Session.Add("listaArticulos", negocio.listarConSPFavoritos(user.Id));
+                dgvlistaArticulos.DataSource = Session["listaArticulos"];
                 dgvlistaArticulos.DataBind();
             }
-            catch (Exception ex)
+
+            else
             {
-                Session.Add("error", ex);
-                throw;
+                switch (CriterioFRapido.SelectedIndex)
+                {
+                    case 0:
+                        listaFiltrada = lista.FindAll(x => x.artnombre.ToUpper().Contains(txtFiltro.Text.ToUpper()));
+                        break;
+                    case 1:
+                        listaFiltrada = lista.FindAll(x => x.artcodigo.ToUpper().Contains(txtFiltro.Text.ToUpper()));
+                        break;
+                    default:
+                        break;
+                }
+                dgvlistaArticulos.DataSource = listaFiltrada;
+                Session.Add("listaArticulos", listaFiltrada);
+                dgvlistaArticulos.DataBind();
             }
         }
+
 
         protected void dgvlistaArticulos_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -98,10 +75,60 @@ namespace TPFinalNivel3_Calcagno
 
         protected void dgvlistaArticulos_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
-            dgvlistaArticulos.DataSource = Session["listaFavoritos"];
+
+            dgvlistaArticulos.DataSource = Session["listaArticulos"];
             dgvlistaArticulos.PageIndex = e.NewPageIndex;
             dgvlistaArticulos.DataBind();
         }
 
+        protected void CriterioFRapido_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Usuario user = (Usuario)Session["usuario"];
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            Session.Add("listaArticulos", negocio.listarConSPFavoritos(user.Id));
+            dgvlistaArticulos.DataSource = Session["listaArticulos"];
+            dgvlistaArticulos.DataBind();
+        }
+
+
+        protected void artfavlist(object sender, EventArgs e)
+        {
+            Session.Add("error", "lalala");
+            Response.Redirect("Error.aspx");
+        }
+
+        protected void dgvlistaArticulos_Sorting(object sender, GridViewSortEventArgs e)
+        {
+            List<Articulo> listaordenada = (List<Articulo>)Session["listaArticulos"];
+            string sortexp = e.SortExpression.ToString();
+
+            switch (sortexp)
+            {
+                case "artmarca":
+                    if (listaordenada.SequenceEqual(listaordenada.OrderBy(x => x.artmarca.Descripcion)))
+                        listaordenada = listaordenada.OrderByDescending(x => x.artmarca.Descripcion).ToList();
+                    else
+                        listaordenada = listaordenada.OrderBy(x => x.artmarca.Descripcion).ToList();
+                    break;
+
+                case "artcategoria":
+                    if (listaordenada.SequenceEqual(listaordenada.OrderBy(x => x.artcategoria.Descripcion)))
+                        listaordenada = listaordenada.OrderByDescending(x => x.artcategoria.Descripcion).ToList();
+                    else
+                        listaordenada = listaordenada.OrderBy(x => x.artcategoria.Descripcion).ToList();
+                    break;
+                default:
+                    if (listaordenada.SequenceEqual(listaordenada.OrderBy(x => x.GetType().GetProperty(sortexp).GetValue(x, null))))
+                        listaordenada = listaordenada.OrderByDescending(x => x.GetType().GetProperty(sortexp).GetValue(x, null)).ToList();
+                    else
+                        listaordenada = listaordenada.OrderBy(x => x.GetType().GetProperty(sortexp).GetValue(x, null)).ToList();
+                    break;
+            }
+
+            Session.Add("listaArticulos", listaordenada);
+            dgvlistaArticulos.DataSource = Session["listaArticulos"];
+            dgvlistaArticulos.DataBind();
+
+        }
     }
 }

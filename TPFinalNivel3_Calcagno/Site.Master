@@ -14,7 +14,7 @@
 
         <link href="Content/bootstrap.min.css" rel="stylesheet" />
         <link href="Scripts/bootstrap.bundle.min.js" rel="stylesheet" />
-
+        <link href="Content/base.css" rel="stylesheet" />
 </head>
 
 <body>

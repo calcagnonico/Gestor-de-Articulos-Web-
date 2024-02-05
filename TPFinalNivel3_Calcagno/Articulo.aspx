@@ -122,30 +122,31 @@ svg{
 
 </style>
 
-
      <main>
-      <div class="row">
 
-          <div class="col-6">
-
-            <div class="mb-3">
-            <section class="row" aria-labelledby="aspnetTitle">
-            <p></p>
-            <h2 id="aspnetTitle">
-            <asp:Label ID="Titulo" runat="server" Text="Agregar Articulo">
-            </asp:Label>
-            </h2>
-            </section>
+<div class="row">
+    <div class="col-6">
+            <div class="row">
+                <section class="row" aria-labelledby="aspnetTitle">
+                <p></p>
+                <h2 id="aspnetTitle">
+                <asp:Label ID="Titulo" runat="server" Text="Agregar Articulo">
+                </asp:Label>
+                </h2>
+                </section>
             </div>
- 
-            <div class="mb-3">
-                <label for="TxtId" class="form-label">Id: </label>
-                <asp:TextBox runat="server" ID="TxtId" CssClass="form-control" />
-            </div>
+            <div class="row">
+                <div class="col-2">
+                    <div class="mb-3">
+                    <label for="TxtId" class="form-label">Id: </label>
+                    <asp:TextBox runat="server" ID="TxtId" CssClass="form-control" />
+                    </div>
+                </div>
 
-            <div class="mb-3">
-                <label for="TxtCodigo" class="form-label">Codigo: </label>
-                <asp:TextBox runat="server" ID="TxtCodigo" CssClass="form-control"  required="1"/>
+                <div class="col-3">
+                    <div class="mb-3">
+                    <label for="TxtCodigo" class="form-label">Codigo: </label>
+                    <asp:TextBox runat="server" ID="TxtCodigo" CssClass="form-control"  required="1"/>
                     <asp:RegularExpressionValidator 
                     Display="Dynamic" 
                     ControlToValidate="TxtCodigo" 
@@ -155,10 +156,17 @@ svg{
                     ErrorMessage="Solo se permiten 50 caracteres"
                     ForeColor="Red">
                    </asp:RegularExpressionValidator>
+                   </div>
+                </div>
+            
+                <div class="col-1">
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="TxtNombre" class="form-label">Nombre: </label>
-                <asp:TextBox runat="server" ID="TxtNombre" CssClass="form-control" required="1"/>
+
+            <div class="row">
+                <div class="mb-3">
+                    <label for="TxtNombre" class="form-label">Nombre: </label>
+                    <asp:TextBox runat="server" ID="TxtNombre" CssClass="form-control" required="1"/>
                     <asp:RegularExpressionValidator 
                     Display="Dynamic" 
                     ControlToValidate="TxtNombre" 
@@ -168,97 +176,129 @@ svg{
                     ErrorMessage="Solo se permiten 50 caracteres"
                     ForeColor="Red">
                    </asp:RegularExpressionValidator>
+                </div>
             </div>
 
-            <div class="mb-3">
+          <div class="row">
+              <div class="col-3">
+                <div class="mb-3">
                 <label for="TxtPrecio" class="form-label">Precio: </label>
                 <asp:TextBox runat="server" ID="TxtPrecio" CssClass="form-control" required="1"/>
                 <asp:RegularExpressionValidator 
                     Display="Dynamic" 
                     ControlToValidate="TxtPrecio" 
                     ID="RegularExpressionValidator3" 
-                    ValidationExpression = "[+-]?([0-9]*[.])?[0-9]?[0-9]" 
+                    ValidationExpression = "^(?=.)([+-]?([0-9]*)(\.([0-9]+))?)$" 
                     runat="server" 
                     ErrorMessage="Formato incorrecto"
                     ForeColor="Red">
                 </asp:RegularExpressionValidator>
+             </div>
+             </div>
+          </div>
+
+
+          <div class="row">
+            <div class="mb-3">
+                <label for="TxtDescripcion" class="form-label">Descripción: </label>
+                <asp:TextBox runat="server" TextMode="MultiLine" style="resize:none" height="100px" resize="none" ID="TxtDescripcion" CssClass="form-control" required="1"/>
+                <asp:RegularExpressionValidator 
+                    Display="Dynamic" 
+                    ControlToValidate="TxtDescripcion" 
+                    ID="RegularExpressionValidator1" 
+                    ValidationExpression = "^[\s\S]{0,150}$" 
+                    runat="server" 
+                    ErrorMessage="Solo se permiten 150 caracteres"
+                    ForeColor="Red">
+                </asp:RegularExpressionValidator>
+             </div>
+          </div>
+
+        <div class="row">
+                <div class="col-4">
+
+                    <div class="mb-3">
+                    <label for="ddlCategoria" class="form-label">Categoria:</label>
+                    <asp:DropDownList ID="ddlCategoria" 
+                    class="form-control" 
+                    type="button" 
+                    data-toggle="dropdown"  
+                    runat="server">
+                    </asp:DropDownList>
+                   </div>
+                </div>
+
+</div>
+
+         <div class="row">
+                <div class="col-4">
+                    <div class="mb-3">
+                    <label for="ddlMarca" class="form-label">Marca:</label>
+                    <asp:DropDownList ID="ddlMarca" 
+                    class="form-control" 
+                    type="button" 
+                    data-toggle="dropdown"
+                    runat="server">
+                    </asp:DropDownList>
+                    </div>
+               </div>
+          </div>
+
+       <div class="row">
+         <div class="mb-3"">
+                <label for="Estado" class="form-label">Estado</label>
+                <div class="form-check form-switch" align="right">
+                <input class="form-check-input" type="checkbox" runat="server" id="estado" clientIdMode="Static" style="align-items:self-end"/>
+                </div>
+         </div>
+       </div>
+                <p></p>
+                <br />
+
+        <div class="row">
+            <div class="col-2">
+                <asp:Button Text="Aceptar" ID="btnAceptar" CssClass="btn btn-primary" OnClick="btnAceptar_Click" runat="server" />
             </div>
 
-            <label for="ddlCategoria" class="form-label">Categoria:</label>
-            <div class="columnas1" Cssclass="columnas">
-                <asp:DropDownList ID="ddlCategoria" 
-                    class="btn btn-secondary btn-sm dropdown-toggle" 
-                    type="button" 
-                    data-toggle="dropdown" 
-                    aria-haspopup="true" 
-                    aria-expanded="false" 
-                    runat="server">
-                </asp:DropDownList>
-                <p></p>
-                <label for="ddlMarca" class="form-label">Marca:</label>
-                <br/>
-                <asp:DropDownList ID="ddlMarca" 
-                    class="btn btn-secondary btn-sm dropdown-toggle" 
-                    type="button" 
-                    data-toggle="dropdown" 
-                    aria-haspopup="true" 
-                    aria-expanded="false" 
-                    runat="server">
-                </asp:DropDownList>
-                </div>
-                <p></p>
-
-            <div class="mb-3">
-                <br />
-                <br />
-                <br />
-                <br />
-                <asp:Button Text="Aceptar" ID="btnAceptar" CssClass="btn btn-primary" OnClick="btnAceptar_Click" runat="server" />
+            <div class="col-2">
                 <a href="javascript:history.back()" Class="btn btn-primary" ">Cancelar</a>
-
-                
-
-
-
+            </div>
 
 <%
     if (modificar)
     {%>
-                            <asp:Button Text="Eliminar" ID="btnEliminar" OnClick="btnEliminar_Click" CssClass="btn btn-danger" runat="server" />     
-                            <p></p>
-                            <div class="mb-3">
-                            </div>
-
+             <div class="col-2">
+                <asp:Button Text="Eliminar" ID="btnEliminar" OnClick="btnEliminar_Click" CssClass="btn btn-danger" runat="server" />     
+                <p></p>
+             </div>
     <%}%>
     <%else{%>
 
     <%}%>
 
+        </div>
 
              <%if (ConfirmaEliminacion)
             {%>
-                            <div class="mb-3">
+            
+            <div class="row">
+                            <div class="col-3">
                             <asp:CheckBox Text="Confirmar Eliminación" ID="chkConfirmaEliminacion" runat="server" />
                             <asp:Button Text="Eliminar" ID="btnConfirmaEliminar" OnClick="btnConfirmaEliminar_Click" CssClass="btn btn-outline-danger" runat="server" />
                             </div>
+            </div>
             <%}%>
              <%else{%>
 
 
              <%}%>
 
-
-                </div>
-
-             
-
     </div>
 
 
 <div class="col-6">
 
-
-<div class="mb-3" align="right">
+    <div class="mb-3" align="right">
 
     <input type="checkbox" id="checkbox" checked runat="server" align="right" clientIdMode="Static"/>
     <label for="checkbox" align="right">
@@ -307,30 +347,8 @@ svg{
 
  </div>
 
-            <div class="mb-3">
-                <label for="TxtDescripcion" class="form-label">Descripción: </label>
-                <asp:TextBox runat="server" TextMode="MultiLine" style="resize:none" height="140px" resize="none" ID="TxtDescripcion" CssClass="form-control" required="1"/>
-                <asp:RegularExpressionValidator 
-                    Display="Dynamic" 
-                    ControlToValidate="TxtDescripcion" 
-                    ID="RegularExpressionValidator1" 
-                    ValidationExpression = "^[\s\S]{0,150}$" 
-                    runat="server" 
-                    ErrorMessage="Solo se permiten 150 caracteres"
-                    ForeColor="Red">
-                </asp:RegularExpressionValidator>
 
-            <p></p>
-            <p></p>
-                <label for="Estado" class="form-label">Estado</label>
-                <div class="form-check form-switch">
-
-
-                <input class="form-check-input" type="checkbox" runat="server" id="estado" clientIdMode="Static">
-
-                </div>
-                <p></p>
-
+           <p></p>
            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                 <ContentTemplate>
                     <div class="mb-3">
@@ -354,14 +372,19 @@ svg{
 
 
                     </div>
+                    <div class="mx-auto" align="center">
                     <asp:Image ImageUrl="https://grupoact.com.ar/wp-content/uploads/2020/04/placeholder.png"
                     runat="server" 
                     ID="imgArticulo"
                     style="Height: 300px"/>
+                    </div>
+
+
                 </ContentTemplate>
             </asp:UpdatePanel>
          </div>
       </div>
+ 
      </main>
 
 </asp:Content>

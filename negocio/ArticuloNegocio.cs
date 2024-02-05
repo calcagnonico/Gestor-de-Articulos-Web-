@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
@@ -19,7 +21,7 @@ namespace negocio
         int idusuario;
 
         //Metodo que devuelve una lista de objetos que obtiene a traves de una consulta embebida en la BD
-        public List<Articulo> listarConSP(int id = 0)
+        public List<Articulo> listarConSP(int artid, int userid)
         {
 
             List<Articulo> lista = new List<Articulo>();
@@ -28,14 +30,14 @@ namespace negocio
             try
             {
                 //Seteamos procedimiento almacenado
-                if (id == 0)
+                if (artid == 0)
                 {
                     datos.setearProcedimiento("StoredListar");
                 }
                 else
-                { 
+                {
                     datos.setearProcedimiento("StoredListarId");
-                    datos.setearParametro("@Id", id);
+                    datos.setearParametro("@Id", artid);
                 }
                 //Ejecutamos
 
@@ -63,7 +65,16 @@ namespace negocio
                     aux.artcategoria.Id = (int)datos.Lectorbd.GetInt32(6);
                     aux.artcategoria.Descripcion = (string)datos.Lectorbd.GetString(7);
 
-                    lista.Add(aux);
+                    if (Chequearfav(userid, aux.artid))
+                    {
+                        aux.artfav = "❤️";
+                    }
+                    else
+                    {
+                        aux.artfav = "🤍";
+                    }
+
+                lista.Add(aux);
                 }
                 return lista;
             }
@@ -71,7 +82,13 @@ namespace negocio
             {
                 throw ex;
             }
+            finally
+            {
+                datos.cerrarConexion();
+            }
         }
+
+
 
         public List<Articulo> listarConSPFavoritos(int Userid)
         {
@@ -109,6 +126,7 @@ namespace negocio
                     aux.artcategoria.Id = (int)datos.Lectorbd.GetInt32(6);
                     aux.artcategoria.Descripcion = (string)datos.Lectorbd.GetString(7);
 
+                    aux.artfav = "❤️";
                     lista.Add(aux);
                 }
                 return lista;
@@ -117,6 +135,10 @@ namespace negocio
             {
                 throw ex;
             }
+            finally
+            {
+                datos.cerrarConexion();
+            }
         }
 
 
@@ -124,8 +146,7 @@ namespace negocio
         {
             bool bandera = false;
             List<Articulo> fav = listarConSPFavoritos(Convert.ToInt32(userId));
-
-                    if (fav != null) 
+            if (fav != null) 
                     {
                         foreach (var i in fav)
                         {
@@ -142,6 +163,8 @@ namespace negocio
                     {
                      bandera = false;
                     }
+
+
 
             return bandera;
         
@@ -207,20 +230,36 @@ namespace negocio
 
         public void EliminarconSP(int artid)
         {
-            AccesoBD datos = new AccesoBD();
-            datos.setearProcedimiento("StoredEliminar");
-            datos.setearParametro("@IdUser", artid);
-            datos.ejecutarLectura();
+            try
+            {
+                AccesoBD datos = new AccesoBD();
+                datos.setearProcedimiento("StoredEliminar");
+                datos.setearParametro("@IdUser", artid);
+                datos.ejecutarLectura();
+                datos.cerrarConexion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public void Agregarafav(int iduser, int idart)
         {
-            AccesoBD datos = new AccesoBD();
-            datos.setearProcedimiento("StoredAgregarFav");
-            //Setear parametro o escribirlo directamente en la consulta son dos opciones posibles, ambas funcionan
-            datos.setearParametro("@IdUser", iduser);
-            datos.setearParametro("@IdArticulo", idart);
-            datos.ejecutarAccion();
+            try
+            {
+                AccesoBD datos = new AccesoBD();
+                datos.setearProcedimiento("StoredAgregarFav");
+                //Setear parametro o escribirlo directamente en la consulta son dos opciones posibles, ambas funcionan
+                datos.setearParametro("@IdUser", iduser);
+                datos.setearParametro("@IdArticulo", idart);
+                datos.ejecutarAccion();
+                datos.cerrarConexion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public void Eliminarfav(int iduser, int idart)
@@ -232,6 +271,91 @@ namespace negocio
             datos.setearParametro("@IdArticulo", idart);
             datos.ejecutarAccion();
         }
+
+
+        public void AgregarMarca(string marca)
+        {
+            try
+            {
+                AccesoBD datos = new AccesoBD();
+                datos.setearProcedimiento("StoredAgregarMarca");
+                datos.setearParametro("@Marca", marca);
+                datos.ejecutarLectura();
+                datos.cerrarConexion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void AgregarCategoria(string categoria)
+        {
+            try
+            {
+                AccesoBD datos = new AccesoBD();
+                datos.setearProcedimiento("StoredAgregarCategoria");
+                datos.setearParametro("@Categoria", categoria);
+                datos.ejecutarLectura();
+                datos.cerrarConexion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        public void EliminarCategoria(int id)
+        {
+            try
+            {
+                AccesoBD datos = new AccesoBD();
+                datos.setearProcedimiento("StoredEliminarCategoria");
+                datos.setearParametro("@IdCategoriaEliminada", id);
+                datos.ejecutarLectura();
+                datos.cerrarConexion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+
+
+        public void EliminarMarca(int id)
+        {
+            try
+            {
+                AccesoBD datos = new AccesoBD();
+                datos.setearProcedimiento("StoredEliminarMarca");
+                datos.setearParametro("@IdMarcaEliminada", id);
+                datos.ejecutarLectura();
+                datos.cerrarConexion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         //Metodo que devuelve una lista de objetos que obtiene a traves de una consulta a la BD
@@ -375,7 +499,7 @@ namespace negocio
         }
 
         //Consulta sql con filtro de listados 
-        public List<Articulo> filtrar(string criterio, string condicion, string filtro, string estado, string marca, string categoria)
+        public List<Articulo> filtrar(string criterio, string condicion, string filtro, string estado, string marca, string categoria, string precioentre, string preciohasta, int userid, string favoritos)
         {
             List<Articulo> lista = new List<Articulo>();
             AccesoBD datos = new AccesoBD();
@@ -416,57 +540,37 @@ namespace negocio
                             break;
                     }
 
-
-                switch (marca)
+                if (marca != "Todas")
                 {
-                    case "Samsung":
-                        consulta += " And M.Descripcion = 'Samsung'";
-                        break;
-                    case "Apple":
-                        consulta += " And M.Descripcion = 'Apple'";
-                        break;
-                    case "Sony":
-                        consulta += " And M.Descripcion = 'Sony'";
-                        break;
-                    case "Huawei":
-                        consulta += " And M.Descripcion = 'Huawei'";
-                        break;
-                    case "Motorola":
-                        consulta += " And M.Descripcion = 'Motorola'";
-                        break;
-                    default:
-                        consulta += "";
-                        break;
+                    consulta += " And M.Descripcion = " + "'" + marca + "'";
+                }
+                else
+                {
+
+                }
+
+                if(categoria !="Todas")
+                {
+                    consulta += " And C.Descripcion = " + "'" + categoria + "'";
+                }
+                else
+                {
+
                 }
 
 
-                switch (categoria)
-                {
-                    case "Celulares":
-                        consulta += " And C.Descripcion = 'Celulares'";
-                        break;
 
-                    case "Media":
-                        consulta += " And C.Descripcion = 'Media'";
-                        break;
-
-                    case "Televisores":
-                        consulta += " And C.Descripcion = 'Televisores'";
-                        break;
-
-                    case "Audio":
-                        consulta += " And C.Descripcion = 'Audio'";
-                        break;
-                    default:
-                        consulta += "";
-                        break;
-                }
-
-
-                if (estado == "Activo")
+            if (estado == "Activo")
                     consulta += " and A.Activo = 1";
                 else if (estado == "Inactivo")
                     consulta += " and A.Activo = 0";
+
+                   if(IsFloatOrInt(precioentre) && IsFloatOrInt(preciohasta))
+                    consulta += " And Precio BETWEEN " + precioentre + " and " + preciohasta;
+                    else
+                    {
+                    }
+
 
 
                 datos.setearConsulta(consulta);
@@ -474,6 +578,8 @@ namespace negocio
 
                 while (datos.Lectorbd.Read())
                 {
+
+
                     Articulo aux = new Articulo();
                     aux.artid = (int)datos.Lectorbd.GetInt32(0);
                     aux.artcodigo = (string)datos.Lectorbd.GetString(1);
@@ -494,7 +600,37 @@ namespace negocio
                     aux.artcategoria.Id = (int)datos.Lectorbd.GetInt32(6);
                     aux.artcategoria.Descripcion = (string)datos.Lectorbd.GetString(7);
 
-                    lista.Add(aux);
+
+                    if (Chequearfav(userid, aux.artid))
+                    {
+                        aux.artfav = "❤️";
+                    }
+                    else
+                    {
+                        aux.artfav = "🤍";
+                    }
+
+
+
+                    switch (favoritos)
+                    {
+                        case "Todos":
+                            lista.Add(aux);
+                            break;
+
+                        case "Favoritos":
+                            if (aux.artfav == "❤️")
+                                lista.Add(aux);
+                            ;
+                            break;
+                        case "No favoritos":
+                            if (aux.artfav == "🤍")
+                                lista.Add(aux);
+                            ;
+                            break;
+                        default:
+                            break;
+                    }
 
                 }
                 return lista;
@@ -505,6 +641,15 @@ namespace negocio
             }
         }
 
+        public bool IsFloatOrInt(string value)
+        {
+            int intValue;
+            float floatValue;
+            return Int32.TryParse(value, out intValue) || float.TryParse(value, out floatValue);
 
+
+
+
+        }
     }
 }

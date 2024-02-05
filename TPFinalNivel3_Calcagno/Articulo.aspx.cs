@@ -29,10 +29,11 @@ namespace TPFinalNivel3_Calcagno
                 //configuración inicial de la pantalla.
                 if (!IsPostBack)
                 {
-                    CategoriaNegocio negocio = new CategoriaNegocio();
-                    MarcaNegocio negocio2 = new MarcaNegocio();
-                    List<Categoria> listacategorias = negocio.listar();
-                    List<Marca> listamarcas = negocio2.listar();
+                    CategoriaNegocio Cnegocio = new CategoriaNegocio();
+                    MarcaNegocio Mnegocio = new MarcaNegocio();
+                    List<Categoria> listacategorias = Cnegocio.listar();
+                    List<Marca> listamarcas = Mnegocio.listar();
+                    Usuario user = (Usuario)Session["usuario"];
 
                     ddlMarca.DataSource = listamarcas;
                     ddlMarca.DataValueField = "Id";
@@ -43,17 +44,21 @@ namespace TPFinalNivel3_Calcagno
                     ddlCategoria.DataValueField = "Id";
                     ddlCategoria.DataTextField = "Descripcion";
                     ddlCategoria.DataBind();
+
                 }
+
                 //configuración si estamos modificando.                
                 string id = Request.QueryString["id"] != null ? Request.QueryString["id"].ToString() : "";
+
+
                 if (id != "" && !IsPostBack)
                 {
                     modificar = true;
                     Titulo.Text = "Modificar Articulo";
                     ArticuloNegocio negocio = new ArticuloNegocio();
-
+                    Usuario user = (Usuario)Session["usuario"];
                     //Articulo seleccionado = negocio.listarConSP(a);
-                    List<Articulo> a = negocio.listarConSP(Convert.ToInt32(id));
+                    List<Articulo> a = negocio.listarConSP(Convert.ToInt32(id), user.Id);
                     Articulo seleccionado = a[0];
                     //Articulo seleccionado = (negocio.listarConSP(Convert.ToInt32(id))[0]);
 
@@ -72,7 +77,6 @@ namespace TPFinalNivel3_Calcagno
 
 
                     //CHEQUEAR SI ES FAVORITO
-                    Usuario user = (Usuario)Session["usuario"];
                     List<Articulo> fav = negocio.listarConSPFavoritos(Convert.ToInt32(user.Id));
                     checkbox.Checked = negocio.Chequearfav(user.Id, seleccionado.artid);
 
@@ -84,6 +88,10 @@ namespace TPFinalNivel3_Calcagno
                 else
                 {
                 }
+
+
+
+
             }
             catch (Exception ex)
 			{
@@ -174,5 +182,7 @@ namespace TPFinalNivel3_Calcagno
             }
 
         }
+
+
     }
 }

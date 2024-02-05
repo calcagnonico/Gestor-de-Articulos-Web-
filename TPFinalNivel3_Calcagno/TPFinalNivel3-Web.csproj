@@ -176,6 +176,7 @@
     <Content Include="Scripts\WebForms\WebParts.js" />
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
     <Content Include="Site.Master" />
+    <Content Include="Content\base.css" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
@@ -186,6 +187,7 @@
     <Content Include="Registro.aspx" />
     <Content Include="Tarjetas.aspx" />
     <Content Include="Favoritos.aspx" />
+    <Content Include="Opciones.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -285,6 +287,13 @@
     </Compile>
     <Compile Include="Favoritos.aspx.designer.cs">
       <DependentUpon>Favoritos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Opciones.aspx.cs">
+      <DependentUpon>Opciones.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Opciones.aspx.designer.cs">
+      <DependentUpon>Opciones.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
