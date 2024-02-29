@@ -2,6 +2,7 @@
 using Microsoft.Ajax.Utilities;
 using negocio;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -37,11 +38,11 @@ namespace TPFinalNivel3_Calcagno
                 {
                     cargarmarcas();
                     cargarcategorias();
+                    UsuarioNegocio negociouser = new UsuarioNegocio();
                 }
-
             }
-        }
 
+        }
 
         //Botones Primarios (Solo muestran los demas controles)
         protected void AgregarCategoria_Click(object sender, EventArgs e)
@@ -50,12 +51,18 @@ namespace TPFinalNivel3_Calcagno
         }
         protected void EditarCategoria_Click(object sender, EventArgs e)
         {
-            ActivarOpcion(2);
-            TxtEditarCategoria.Text = ListaCategorias.SelectedItem.Text;
+            if (ListaCategorias.SelectedItem != null)
+            {
+                ActivarOpcion(2);
+                TxtEditarCategoria.Text = ListaCategorias.SelectedItem.Text;
+            }
         }
         protected void EliminarCategoria_Click(object sender, EventArgs e)
         {
-            ActivarOpcion(3);
+            if (ListaCategorias.SelectedItem != null)
+            {
+                ActivarOpcion(3);
+            }
         }
         protected void AgregarMarca_Click(object sender, EventArgs e)
         {
@@ -63,14 +70,22 @@ namespace TPFinalNivel3_Calcagno
         }
         protected void EditarMarca_Click(object sender, EventArgs e)
         {
-            ActivarOpcion(5);
-            TxtEditarMarca.Text = ListaMarcas.SelectedItem.Text;
+
+            if (ListaMarcas.SelectedItem != null)
+            {
+                ActivarOpcion(5);
+                TxtEditarMarca.Text = ListaMarcas.SelectedItem.Text;
+            }
+
+
         }
         protected void EliminarMarca_Click(object sender, EventArgs e)
         {
-            ActivarOpcion(6);
+            if (ListaMarcas.SelectedItem != null)
+            {
+                ActivarOpcion(6);
+            }
         }
-
 
 
         /////////Metodo para mostrar u ocultar controles segun el boton apretado
@@ -144,8 +159,6 @@ namespace TPFinalNivel3_Calcagno
         }
 
 
-
-
         ///////Botones de confirmacion (3er Columna) que borran/editan los elementos de la bd
         protected void btnAgregarMarca_Click(object sender, EventArgs e)
         {
@@ -157,16 +170,23 @@ namespace TPFinalNivel3_Calcagno
 
         protected void btnEditarMarca_Click(object sender, EventArgs e)
         {
-
+            ArticuloNegocio articulonegocio = new ArticuloNegocio();
+            int id = Convert.ToInt32(ListaMarcas.SelectedItem.Value);
+            articulonegocio.EditarMarca(id, TxtEditarMarca.Text);
+            ListaMarcas.Items.Clear();
+            cargarmarcas();
         }
 
         protected void btnEliminarMarca_Click(object sender, EventArgs e)
         {
+            if (ListaMarcas.SelectedItem != null)
+            {
             ArticuloNegocio articulonegocio = new ArticuloNegocio();
             int id = Convert.ToInt32(ListaMarcas.SelectedItem.Value);
             articulonegocio.EliminarMarca(id);
             ListaMarcas.Items.Clear();
             cargarmarcas();
+            }
         }
 
         protected void btnAgregarCategoria_Click(object sender, EventArgs e)
@@ -179,7 +199,11 @@ namespace TPFinalNivel3_Calcagno
 
         protected void btnEditarCategoria_Click(object sender, EventArgs e)
         {
-
+            ArticuloNegocio articulonegocio = new ArticuloNegocio();
+            int id = Convert.ToInt32(ListaCategorias.SelectedItem.Value);
+            articulonegocio.EditarCategoria(id, TxtEditarCategoria.Text);
+            ListaCategorias.Items.Clear();
+            cargarcategorias();
         }
 
         protected void btnEliminarCategoria_Click(object sender, EventArgs e)
@@ -190,6 +214,7 @@ namespace TPFinalNivel3_Calcagno
             ListaCategorias.Items.Clear();
             cargarcategorias();
         }
+
 
         protected void ListaCategorias_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -234,5 +259,9 @@ namespace TPFinalNivel3_Calcagno
             }
             ListaCategorias.DataBind();
         }
+
     }
+
 }
+
+

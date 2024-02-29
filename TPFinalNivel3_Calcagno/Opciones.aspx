@@ -19,7 +19,7 @@
           </div>
 
           <div class="col-2" style="width:180px">
-            <asp:ListBox ID="ListaCategorias" runat="server" Width="150px" Height="170px">
+            <asp:ListBox ID="ListaCategorias" runat="server" Width="150px" Height="170px" CssStyle="list-group">
             </asp:ListBox>
             <br>
           </div>
@@ -70,7 +70,7 @@
             <%if (BEliminarCategoria)
             {
             %>
-            Eliminar 
+            Eliminar Categoria Seleccionada?
             <%}%>
             </div>
         </div>
@@ -181,7 +181,7 @@
                 <%if (BEliminarMarca)
                 {
                 %>
-                Confirmar eliminación
+                Eliminar Marca seleccionada?
                 <%}%>
                 </div>
             </div>
@@ -222,36 +222,5 @@
             </div>
  </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </main>
 </asp:Content>

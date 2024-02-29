@@ -343,9 +343,40 @@ namespace negocio
 
 
 
+        public void EditarMarca(int id, string nombre)
+        {
+            try
+            {
+                AccesoBD datos = new AccesoBD();
+                datos.setearProcedimiento("StoredModificarMarca");
+                datos.setearParametro("@Id", id);
+                datos.setearParametro("@Marca", nombre);
+                datos.ejecutarLectura();
+                datos.cerrarConexion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
 
-
+        public void EditarCategoria(int id, string nombre)
+        {
+            try
+            {
+                AccesoBD datos = new AccesoBD();
+                datos.setearProcedimiento("StoredModificarCategoria");
+                datos.setearParametro("@Id", id);
+                datos.setearParametro("@Categoria", nombre);
+                datos.ejecutarLectura();
+                datos.cerrarConexion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
 
 

@@ -12,8 +12,10 @@ namespace TPFinalNivel3_Calcagno
 {
     public partial class SiteMaster : MasterPage
     {
+        public bool banderaadmin = false;
         protected void Page_Load(object sender, EventArgs e)
         {
+
 
             if (!Seguridad.sesionActiva(Session["usuario"]))
             {
@@ -31,10 +33,19 @@ namespace TPFinalNivel3_Calcagno
                 Usuario user = (Usuario)Session["usuario"];
                 lblUser.Text = user.Nombre;
                      if (!string.IsNullOrEmpty(user.ImagenPerfil) || File.Exists("~/Images/" + user.ImagenPerfil))
-                       imgAvatar.ImageUrl = "~/Images/" + user.ImagenPerfil;
-                     else
-                        imgAvatar.ImageUrl = "https://simg.nicepng.com/png/small/202-2022264_usuario-annimo-usuario-annimo-user-icon-png-transparent.png";
+                {
+                    imgAvatar.ImageUrl = "~/Images/" + user.ImagenPerfil;
+                }
+                else
+                {
+                    imgAvatar.ImageUrl = "https://simg.nicepng.com/png/small/202-2022264_usuario-annimo-usuario-annimo-user-icon-png-transparent.png";
+                }
 
+            if (Seguridad.esAdmin(user))
+                { banderaadmin = true; }
+                else
+                {
+                }
             }
         }
 

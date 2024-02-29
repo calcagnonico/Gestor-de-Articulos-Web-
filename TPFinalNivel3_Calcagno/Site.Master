@@ -93,7 +93,18 @@
   <ul class="dropdown-menu dropdown-menu-end">
     <li><a class="dropdown-item" href="Perfil">Mi Perfil</a></li>
     <li><a class="dropdown-item" href="Opciones">Opciones</a></li>
-<asp:Button Text="Salir" ID="Button2" class="dropdown-item" OnClick="btnSalir_Click" runat="server" />
+
+
+                          <% if (banderaadmin){ %>
+          <li><a class="dropdown-item" href="Usuarios">Usuarios</a></li>
+                          <%
+                       }
+                       else {
+                    %>
+                     <%} %>
+
+
+<asp:Button Text="Salir" ID="Button2" class="dropdown-item" OnClick="btnSalir_Click" runat="server" CausesValidation="false" UseSubmitBehavior="false"/>
   </ul>
 </div>
 

@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using dominio;
 
 
@@ -100,6 +102,66 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
+        public List<Usuario> listarusuarios()
+        {
+            AccesoBD datos = new AccesoBD();
+            List<Usuario> listausuarios = new List<Usuario> ();
+            try
+            {
+               datos.setearConsulta("Select Id, email, pass, nombre, apellido, urlImagenPerfil, admin, FechaNacimiento from USERS");
+               datos.ejecutarLectura();
+
+                while (datos.Lectorbd.Read())
+                {
+                    Usuario aux = new Usuario();
+               
+                    aux.Id = (int)datos.Lectorbd.GetInt32(0);
+                    aux.Email = (string)datos.Lectorbd.GetString(1);
+                    aux.Pass = (string)datos.Lectorbd.GetString(2);
+                    aux.Nombre = (string)datos.Lectorbd.GetString(3);
+                    aux.Apellido = (string)datos.Lectorbd.GetString(4);
+                    aux.ImagenPerfil = (string)datos.Lectorbd.GetString(5);
+                    aux.Admin = (bool)datos.Lectorbd.GetBoolean(6);
+                    aux.FechaNacimiento = datos.Lectorbd.GetDateTime(7);
+                    listausuarios.Add(aux);
+                }
+                return listausuarios;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
+
+        public void actualizarclave(string clave, Usuario user)
+        {
+            AccesoBD datos = new AccesoBD();
+            try
+            {
+                datos.setearConsulta("Update USERS set pass = @clave Where Id = @id");
+                datos.setearParametro("@id", user.Id);
+                datos.setearParametro("@clave", clave);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
 
     }
 }

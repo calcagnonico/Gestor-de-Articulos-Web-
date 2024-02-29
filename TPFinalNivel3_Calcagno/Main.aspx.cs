@@ -72,6 +72,12 @@ namespace TPFinalNivel3_Calcagno
 
         else
         {
+                Usuario user = (Usuario)Session["usuario"];
+                //Estas dos lineas son para que la lista se cargue completa antes de filtrar
+                //Pq si fiiltramos primero, y despues volvemos a escribir va a filtrar sobre la lista ya filtrada al principio
+                ArticuloNegocio negocio = new ArticuloNegocio();
+                lista = negocio.listarConSP(0, user.Id);
+
                 switch (CriterioFRapido.SelectedIndex)
             {
                 case 0:

@@ -34,3 +34,12 @@ C:\Dropbox\Programacion\GitHub\TPFinalNivel3_Calcagno\negocio\obj\Debug\negocio.
 C:\Dropbox\Programacion\GitHub\TPFinalNivel3_Calcagno\negocio\obj\Debug\negocio.csproj.CopyComplete
 C:\Dropbox\Programacion\GitHub\TPFinalNivel3_Calcagno\negocio\obj\Debug\negocio.dll
 C:\Dropbox\Programacion\GitHub\TPFinalNivel3_Calcagno\negocio\obj\Debug\negocio.pdb
+C:\Dropbox (Personal)\Programacion\GitHub\TPFinalNivel3_Calcagno\negocio\bin\Debug\negocio.dll
+C:\Dropbox (Personal)\Programacion\GitHub\TPFinalNivel3_Calcagno\negocio\bin\Debug\negocio.pdb
+C:\Dropbox (Personal)\Programacion\GitHub\TPFinalNivel3_Calcagno\negocio\bin\Debug\dominio.dll
+C:\Dropbox (Personal)\Programacion\GitHub\TPFinalNivel3_Calcagno\negocio\bin\Debug\dominio.pdb
+C:\Dropbox (Personal)\Programacion\GitHub\TPFinalNivel3_Calcagno\negocio\obj\Debug\negocio.csproj.AssemblyReference.cache
+C:\Dropbox (Personal)\Programacion\GitHub\TPFinalNivel3_Calcagno\negocio\obj\Debug\negocio.csproj.CoreCompileInputs.cache
+C:\Dropbox (Personal)\Programacion\GitHub\TPFinalNivel3_Calcagno\negocio\obj\Debug\negocio.csproj.CopyComplete
+C:\Dropbox (Personal)\Programacion\GitHub\TPFinalNivel3_Calcagno\negocio\obj\Debug\negocio.dll
+C:\Dropbox (Personal)\Programacion\GitHub\TPFinalNivel3_Calcagno\negocio\obj\Debug\negocio.pdb

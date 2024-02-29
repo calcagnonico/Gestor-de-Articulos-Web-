@@ -7,20 +7,25 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Windows.Forms;
 using dominio;
+using Microsoft.Ajax.Utilities;
 using negocio;
 
 
 
 namespace TPFinalNivel3_Calcagno
 {
+
     public partial class WebForm3 : System.Web.UI.Page
     {
+        public bool cambiarclave;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             try
             {
                 if (!IsPostBack)
                 {
+                    
                     if (Seguridad.sesionActiva(Session["usuario"]))
                     {
                         Usuario user = (Usuario)Session["usuario"];
@@ -32,6 +37,13 @@ namespace TPFinalNivel3_Calcagno
                         if (!string.IsNullOrEmpty(user.ImagenPerfil) || File.Exists("~/Images/" + user.ImagenPerfil))
                         imgNuevoPerfil.ImageUrl = "~/Images/" + user.ImagenPerfil;
                     }
+                    Session.Add("cambiarclave", false);
+
+                }
+                else
+                {
+
+                  cambiarclave = (bool)Session["cambiarclave"];
 
                 }
             }
@@ -41,8 +53,6 @@ namespace TPFinalNivel3_Calcagno
             }
         }
 
-
-
         protected void btnImagen_Click(object sender, EventArgs e)
         {
             if (this.FileUploadControl.HasFile)
@@ -50,12 +60,6 @@ namespace TPFinalNivel3_Calcagno
                 imgNuevoPerfil.ImageUrl = FileUploadControl.FileName;
             }
         }
-
-
-
-
-
-
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
@@ -78,7 +82,6 @@ namespace TPFinalNivel3_Calcagno
 
                 }
 
-
                 user.Nombre = txtNombre.Text;
                 user.Apellido = txtApellido.Text;
                 user.FechaNacimiento = DateTime.Parse(txtFechaNacimiento.Text);
@@ -86,10 +89,15 @@ namespace TPFinalNivel3_Calcagno
 
                 //guardar datos perfil
                 negocio.actualizar(user);
-
-                //leer img
-                //Image img = (Image)Master.FindControl("imgAvatar");
-                //img.ImageUrl = "~/Images/" + user.ImagenPerfil;
+                
+                //actualizarclave
+                    if ((bool)Session["cambiarclave"] & NuevaClave.Text == NuevaClave2.Text)
+                    {
+                        negocio.actualizarclave(NuevaClave2.Text, user);
+                    }
+                     else
+                    {
+                    }
 
             }
             catch (Exception ex)
@@ -98,5 +106,37 @@ namespace TPFinalNivel3_Calcagno
             }
         }
 
+        protected void Cambiarclavebtn_Click(object sender, EventArgs e)
+        {
+            if (!(bool)Session["cambiarclave"])
+            {
+                Session.Add("cambiarclave", true);
+                cambiarclave = (bool)Session["cambiarclave"];
+            }
+            else
+            {
+                Session.Add("cambiarclave", false);
+                cambiarclave = (bool)Session["cambiarclave"];
+            }
+
     }
+
+        protected void controlclave_ServerValidate(object sender, ServerValidateEventArgs e)
+        {
+            if (e.Value == NuevaClave.Text)
+                e.IsValid = true;
+            else
+                e.IsValid = false;
+        }
+
+        protected void controlclaveactual_ServerValidate(object sender, ServerValidateEventArgs e)
+        {
+            Usuario user = (Usuario)Session["usuario"];
+            if (ClaveActual.Text == user.Pass)
+                e.IsValid = true;
+            else
+                e.IsValid = false;
+        }
+
+}
 }

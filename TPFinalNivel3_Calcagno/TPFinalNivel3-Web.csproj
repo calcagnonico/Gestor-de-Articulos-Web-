@@ -188,6 +188,7 @@
     <Content Include="Tarjetas.aspx" />
     <Content Include="Favoritos.aspx" />
     <Content Include="Opciones.aspx" />
+    <Content Include="Usuarios.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -294,6 +295,13 @@
     </Compile>
     <Compile Include="Opciones.aspx.designer.cs">
       <DependentUpon>Opciones.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Usuarios.aspx.cs">
+      <DependentUpon>Usuarios.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Usuarios.aspx.designer.cs">
+      <DependentUpon>Usuarios.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
