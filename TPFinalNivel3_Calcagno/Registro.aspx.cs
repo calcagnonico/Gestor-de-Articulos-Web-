@@ -20,27 +20,34 @@ namespace TPFinalNivel3_Calcagno
             }
             else
             {
+                Session.Clear();
             }
         }
 
         protected void btnRegistrarse_Click(object sender, EventArgs e)
         {
+            Page.Validate();
+            if (!Page.IsValid)
+                return;
             try
             {
                 Usuario user = new Usuario();
                 UsuarioNegocio UsuarioNegocio = new UsuarioNegocio();
-                EmailService emailService = new EmailService();
 
                 user.Email = txtEmail.Text;
                 user.Pass = txtPassword.Text;
                 user.Nombre = txtNombre.Text;
-
-                user.Id = UsuarioNegocio.insertarNuevo(user);
-                Session.Add("usuario", user);
-
-                //emailService.armarCorreo(user.Email, "Bienvenido " + user.Nombre + ",Hola te damos la bienvenida a la aplicación...");
-                //emailService.enviarEmail();
-                Response.Redirect("Default.aspx", false);
+                DateTime dateTime = DateTime.Now;
+                user.FechaNacimiento = dateTime;
+                user.Id = 1;
+                if (UsuarioNegocio.chequearemailusuario(user.Email))
+                {
+                    Session.Add("nuevousuario", user);
+                    Response.Redirect("Confirmacion.aspx", false);
+                }
+                else
+                {
+                }
             }
             catch (Exception ex)
             {
@@ -48,8 +55,11 @@ namespace TPFinalNivel3_Calcagno
             }
         }
 
-
-
+        protected void Validaemailexistente_ServerValidate(object source, ServerValidateEventArgs args)
+        {
+        UsuarioNegocio usuarionegocio = new UsuarioNegocio();
+        args.IsValid = (usuarionegocio.chequearemailusuario(args.Value));
+        }
     }
 
 }

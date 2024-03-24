@@ -10,6 +10,8 @@
      </section>
          <p></p>
 
+                        <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+                <ContentTemplate>
 
 <div class="row">
 
@@ -48,7 +50,11 @@
             <%if (BAgregarCategoria)
             {
             %>
+            <asp:Panel ID="Panel3" runat="server" defaultbutton="btnAgregarCategoria">
             <asp:TextBox runat="server" ID="TxtAgregarCategoria" CssClass="form-control"/>
+            </asp:Panel > 
+
+
              <%}%>
              </div>
             
@@ -59,7 +65,11 @@
             <%if (BEditarCategoria)
             {
             %>
+            <asp:Panel ID="Panel4" runat="server" defaultbutton="btnEditarCategoria">
             <asp:TextBox runat="server" ID="TxtEditarCategoria" CssClass="form-control"/>
+            </asp:Panel > 
+
+
              <%}%>
             </div>
 
@@ -159,7 +169,11 @@
                 <%if (BAgregarMarca)
                 {
                 %>
+
+                <asp:Panel ID="Panel1" runat="server" defaultbutton="btnAgregarMarca">
                 <asp:TextBox runat="server" ID="TxtAgregarMarca" CssClass="form-control"/>
+                </asp:Panel > 
+
                 <%}%>
                 </div>
 
@@ -170,7 +184,9 @@
                 <%if (BEditarMarca)
                 {
                 %>
+                <asp:Panel ID="Panel2" runat="server" defaultbutton="btnEditarMarca">
                 <asp:TextBox runat="server" ID="TxtEditarMarca" CssClass="form-control"/>
+                </asp:Panel >
                 <%}%>
                 </div>
 
@@ -222,5 +238,10 @@
             </div>
  </div>
 </div>
+
+   
+
+                                          </ContentTemplate>
+            </asp:UpdatePanel>
 </main>
 </asp:Content>

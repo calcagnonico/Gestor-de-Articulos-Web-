@@ -9,6 +9,7 @@ using dominio;
 using Microsoft.Ajax.Utilities;
 using System.Collections;
 using System.Drawing;
+using System.Drawing.Printing;
 
 namespace TPFinalNivel3_Calcagno
 {
@@ -52,9 +53,19 @@ namespace TPFinalNivel3_Calcagno
                }
                DropDownMarca.DataBind();
                DropDownMarca.SelectedIndex = 0;
-            }
-        }
 
+              if (Session["cantxpagina"] != null)
+                {
+                    int a = (int)Session["cantxpagina"];
+                    Cantidadxpagina.Text = Convert.ToString(a);
+                    CargarCantidadxPagina();
+                }
+                else
+                {
+                    Cantidadxpagina.Text = "10";
+                }
+        }
+        }
 
         protected void filtro_TextChanged(object sender, EventArgs e)
         {
@@ -169,8 +180,6 @@ namespace TPFinalNivel3_Calcagno
             {
                 txtFiltro.Enabled = false;
                 CriterioFRapido.Enabled = false;
-
-                //REVISAR ESTO SI PUEDO LLAMAR AL EVENTO
                 ddlCriterio.Items.Clear();
                 if (ddlCampo.SelectedItem.ToString() == "Número")
                 {
@@ -239,5 +248,29 @@ namespace TPFinalNivel3_Calcagno
             dgvlistaArticulos.DataBind();
         }
 
-    }
+        protected void Cantidadxpagina_TextChanged(object sender, EventArgs e)
+        {
+            CargarCantidadxPagina();
+        }
+
+        protected void CargarCantidadxPagina()
+        {
+            int a;
+            if (int.TryParse(Cantidadxpagina.Text, out a))
+            {
+                dgvlistaArticulos.PageSize = a;
+                dgvlistaArticulos.DataSource = Session["listaArticulos"];
+                dgvlistaArticulos.PageIndex = 0;
+                Session.Add("cantxpagina", a);
+                dgvlistaArticulos.DataBind();
+            }
+            else
+            {
+                dgvlistaArticulos.PageSize = 10;
+                dgvlistaArticulos.DataSource = Session["listaArticulos"];
+                dgvlistaArticulos.PageIndex = 0;
+                dgvlistaArticulos.DataBind();
+            }
+        }
+}
 }

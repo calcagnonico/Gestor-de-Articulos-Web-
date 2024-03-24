@@ -15,7 +15,8 @@ namespace TPFinalNivel3_Calcagno
         {
             if (!IsPostBack)
             {
-            Usuario user = (Usuario)Session["usuario"];
+
+                Usuario user = (Usuario)Session["usuario"];
                     if (user is null)
                     { }
                     else
@@ -23,7 +24,7 @@ namespace TPFinalNivel3_Calcagno
                         if (Seguridad.esAdmin(user))
                             {
                             UsuarioNegocio negociouser = new UsuarioNegocio();
-                            Session.Add("listausuarios", negociouser.listarusuarios());
+                            Session.Add("listausuarios", negociouser.listarusuarios(user.Id));
                             dgvlistaUsuarios.DataSource = Session["listausuarios"];
                             dgvlistaUsuarios.DataBind();
                             }
@@ -40,8 +41,8 @@ namespace TPFinalNivel3_Calcagno
 
         protected void dgvlistaUsuarios_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //string id = dgvlistausuarios.SelectedDataKey.Value.ToString();
-            //Response.Redirect("Usuario.aspx?id=" + id);
+            string id = dgvlistaUsuarios.SelectedDataKey.Value.ToString();
+            Response.Redirect("Perfil.aspx?idusuarioedicion=" + id);
         }
 
 
@@ -51,8 +52,6 @@ namespace TPFinalNivel3_Calcagno
             dgvlistaUsuarios.PageIndex = e.NewPageIndex;
             dgvlistaUsuarios.DataBind();
         }
-
-
 
         protected void filtro_TextChanged(object sender, EventArgs e)
         {
@@ -64,7 +63,7 @@ namespace TPFinalNivel3_Calcagno
 
                 Usuario user = (Usuario)Session["usuario"];
                 UsuarioNegocio negociouser = new UsuarioNegocio();
-                Session.Add("listausuarios", negociouser.listarusuarios());
+                Session.Add("listausuarios", negociouser.listarusuarios(user.Id));
                 dgvlistaUsuarios.DataSource = Session["listaUsuarios"];
                 dgvlistaUsuarios.DataBind();
             }
@@ -74,7 +73,8 @@ namespace TPFinalNivel3_Calcagno
                 //Estas dos lineas son para que la lista se cargue completa antes de filtrar
                 //Pq si fiiltramos primero, y despues volvemos a escribir va a filtrar sobre la lista ya filtrada al principio
                 UsuarioNegocio negociouser = new UsuarioNegocio();
-                lista = negociouser.listarusuarios();
+                Usuario user = (Usuario)Session["usuario"];
+                lista = negociouser.listarusuarios(user.Id);
 
                 switch (CriterioFRapido.SelectedIndex)
                 {

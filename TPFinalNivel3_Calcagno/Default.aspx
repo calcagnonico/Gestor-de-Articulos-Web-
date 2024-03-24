@@ -9,10 +9,10 @@
      </section>
         
        <div class="row">
-        <section class="col-md-4">
+        <div class="col-md-4">
+
         <div class="form-floating mb-3" placeholder="usuario@email.com">
         <asp:TextBox ID="txtEmail" runat="server" Cssclass="form-control" REQUIRED="1" placeholder="usuario@email.com"/>
-        <label for="floatingEmail" cssclass="form-control">E-Mail</label>
         <label for="floatingEmail" cssclass="form-control">E-Mail
         <asp:RegularExpressionValidator ControlToValidate="txtEmail" ErrorMessage="Campo Inválido" runat="server" ValidationExpression="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"  ForeColor="Red" 
         Type="Integer" Enabled="True" Display="Dynamic"/>
@@ -29,12 +29,16 @@
         <asp:Button Text="Ingresar" cssclass="btn btn-primary" ID="btnLogin" OnClick="btnLogin_Click" runat="server"/>
         <a href="Registro" class="btn btn-primary btn-md">Crear usuario &raquo;</a>
         </p>
-      </section>
+       </div>
+                   <div class="col-md-4">
+                       <a href="https://maxiprograma.com//">
+                       <img src="/Images/maxi-programa-banner.jpg" alt="Maxi Programa" height="200"/></a>
+                    </div>
 
-      <section class="col-md-4" aria-labelledby="librariesTitle">
-      </section>
-      <section class="col-md-4" aria-labelledby="hostingTitle">
-      </section>
+                     <div class="col-md-4">
+                       <a href="https://maxiprograma.com//mim">
+                       <img src="/Images/nivel-3.jpg" alt="Maxi Programa" height="200"/></a>
+                    </div>
       </div>
     </main>
 

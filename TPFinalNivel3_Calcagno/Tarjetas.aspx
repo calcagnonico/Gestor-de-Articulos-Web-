@@ -1,13 +1,24 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Tarjetas.aspx.cs" Inherits="TPFinalNivel3_Calcagno.WebForm1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
+     <script>
+// Funcion q muestra la imagen de error si la ruta no esta correcta
+     function imgError(me) {
+         var AlterNativeImg = "/Images/error.jpeg";    
+         if (AlterNativeImg != me.src)
+             me.src = AlterNativeImg;
+     }
+     </script>   
 
      <section class="row" aria-labelledby="aspnetTitle">
             <p></p>
             <h2 id="aspnetTitle">Gestionar Articulos</h2>
      </section>
 
+                   <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+                <ContentTemplate>
 
+      
 
     <div class="row">
         <div class="col-8">
@@ -150,12 +161,10 @@
                display:flex; align-items:center;"/>
 
 
-
-               <img src="<%#Eval("artimagen") %>" class="card-img-top" alt="..." />
-
+               <img src="<%#Eval("artimagen") %>" class="card-img-top" alt="..." onerror="imgError(this)"/>
 
                       </div>
-                      <div class="card-footer" style="height:110px; background-color:white" >
+                      <div class="card-footer" style="height:135px; background-color:white" >
                <p class="card-text"><%#Eval("artdescripcion") %>
                         </div>
                       <div class="card-footer" >
@@ -165,5 +174,6 @@
             </ItemTemplate>
         </asp:Repeater>
             </div>
-
+                                                        </ContentTemplate>
+            </asp:UpdatePanel>
 </asp:Content>

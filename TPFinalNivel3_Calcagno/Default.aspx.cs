@@ -15,6 +15,7 @@ namespace TPFinalNivel3_Calcagno
             }
             else
             {
+                Session.Clear();
             }
         }
         protected void btnLogin_Click(object sender, EventArgs e)
@@ -27,7 +28,7 @@ namespace TPFinalNivel3_Calcagno
                 if (Validaciones.validaTextoVacio(txtEmail) || Validaciones.validaTextoVacio(txtPassword))
                 {
                     Session.Add("error", "Debes completar ambos campos...");
-                    Response.Redirect("Error.aspx");
+                    Response.Redirect("Error.aspx", false);
                 }
 
                 usuario.Email = txtEmail.Text;

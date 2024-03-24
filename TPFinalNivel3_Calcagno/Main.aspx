@@ -6,7 +6,8 @@
             <p></p>
             <h2 id="aspnetTitle">Gestionar Articulos</h2>
      </section>
-
+                   <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+                <ContentTemplate>
     <div class="row">
 
         <div class="col-8">
@@ -116,10 +117,7 @@
                     <asp:ListItem Text="No favoritos" />
                     </asp:DropDownList>    
             </div>
-
 </div>
-
-
 <div class="row">
 
     <div class="col-10">
@@ -127,13 +125,8 @@
             <div class="col-2">
                 <asp:Button Text="Buscar" runat="server" CssClass="btn btn-primary" id="btnBuscar" OnClick="btnBuscar_Click" width="100%"/>
             </div>
-
-
 </div>
-
-
         <%} %>
-
    <br>
     <asp:GridView ID="dgvlistaArticulos" runat="server"
                   DataKeyNames="artid"
@@ -146,9 +139,7 @@
                   AllowSorting="True"
                   PageSize="10"
                   OnSorting="dgvlistaArticulos_Sorting"
-                  
          >
-
             <PagerStyle CssClass="pagination1" />
             <Columns>
             <asp:BoundField HeaderText="ID"            DataField="artid"  HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="1%" HeaderStyle-CssClass="hide" ItemStyle-CssClass="hide" />
@@ -161,11 +152,24 @@
             <asp:BoundField HeaderText="❤️​"            DataField ="artfav" HeaderStyle-HorizontalAlign="Center" ItemStyle-Width ="2%" SortExpression="artfav"/>
             <asp:CommandField HeaderText="✏️"          ShowSelectButton="true" SelectText="📝​" ItemStyle-Width="2%" />
             </Columns>
-
     </asp:GridView>
+         <div class="row">
+         <div class="col-2">
+<a href="Articulo.aspx" class="btn btn-primary">Agregar</a>
+         </div>
+ <div class="col-9" style="display: grid; align-items: center; text-align:right">
+             <asp:Label Text="Articulos por página:" runat="server" style="text-align:right"/>
+      </div>
 
-    <a href="Articulo.aspx" class="btn btn-primary">Agregar</a>
 
+<div class="col-1" style="text-align:right">
+
+<asp:TextBox runat="server" TextMode="Number" ID="Cantidadxpagina" style="float: right" CssClass="form-control" Width="75px" OnTextChanged="Cantidadxpagina_TextChanged" AutoPostBack="true" />
+
+</div>
+</div>
+</ContentTemplate>
+</asp:UpdatePanel>
     </main>
 
 </asp:Content>

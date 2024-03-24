@@ -19,7 +19,7 @@ namespace TPFinalNivel3_Calcagno
 
             if (!Seguridad.sesionActiva(Session["usuario"]))
             {
-                if (!(Page is Error || Page is Default || Page is About || Page is Contact || Page is Registro))
+                if (!(Page is Error || Page is Default || Page is About || Page is Contact || Page is Registro || Page is Confirmacion))
                 {
                     Response.Redirect("Default.aspx", false);
                 }
@@ -34,11 +34,11 @@ namespace TPFinalNivel3_Calcagno
                 lblUser.Text = user.Nombre;
                      if (!string.IsNullOrEmpty(user.ImagenPerfil) || File.Exists("~/Images/" + user.ImagenPerfil))
                 {
-                    imgAvatar.ImageUrl = "~/Images/" + user.ImagenPerfil;
+                    imgAvatar.ImageUrl = "~/Images/" + user.ImagenPerfil + "?img=" + numrandom();
                 }
                 else
                 {
-                    imgAvatar.ImageUrl = "https://simg.nicepng.com/png/small/202-2022264_usuario-annimo-usuario-annimo-user-icon-png-transparent.png";
+                    imgAvatar.ImageUrl = "~/Images/usernn.png";
                 }
 
             if (Seguridad.esAdmin(user))
@@ -60,6 +60,23 @@ namespace TPFinalNivel3_Calcagno
         {
             Response.Redirect("Perfil.aspx");
         }
+
+        protected void btnPerfil_Click(object sender, EventArgs e)
+        {
+            Session.Remove("useredicion");
+            Response.Redirect("Perfil.aspx");
+        }
+
+
+        public int numrandom()
+        {
+            int min = 00000;
+            int max = 99999;
+            Random rnd = new Random();
+            return rnd.Next(min, max + 1);
+        }
+
+
 
     }
 }

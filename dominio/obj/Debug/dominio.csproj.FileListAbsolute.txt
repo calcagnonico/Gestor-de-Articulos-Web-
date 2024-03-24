@@ -16,3 +16,9 @@ C:\Dropbox\Programacion\GitHub\TPFinalNivel3_Calcagno\dominio\obj\Debug\dominio.
 C:\Dropbox\Programacion\GitHub\TPFinalNivel3_Calcagno\dominio\obj\Debug\dominio.csproj.CoreCompileInputs.cache
 C:\Dropbox\Programacion\GitHub\TPFinalNivel3_Calcagno\dominio\obj\Debug\dominio.dll
 C:\Dropbox\Programacion\GitHub\TPFinalNivel3_Calcagno\dominio\obj\Debug\dominio.pdb
+C:\Dropbox (Personal)\Programacion\GitHub\TPFinalNivel3_Calcagno\dominio\bin\Debug\dominio.dll
+C:\Dropbox (Personal)\Programacion\GitHub\TPFinalNivel3_Calcagno\dominio\bin\Debug\dominio.pdb
+C:\Dropbox (Personal)\Programacion\GitHub\TPFinalNivel3_Calcagno\dominio\obj\Debug\dominio.csproj.AssemblyReference.cache
+C:\Dropbox (Personal)\Programacion\GitHub\TPFinalNivel3_Calcagno\dominio\obj\Debug\dominio.csproj.CoreCompileInputs.cache
+C:\Dropbox (Personal)\Programacion\GitHub\TPFinalNivel3_Calcagno\dominio\obj\Debug\dominio.dll
+C:\Dropbox (Personal)\Programacion\GitHub\TPFinalNivel3_Calcagno\dominio\obj\Debug\dominio.pdb

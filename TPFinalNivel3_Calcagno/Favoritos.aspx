@@ -53,8 +53,24 @@
 
     </asp:GridView>
 
-    <a href="Articulo.aspx" class="btn btn-primary">Agregar</a>
-    </main>
+         <div class="row">
+         <div class="col-2">
+<a href="Articulo.aspx" class="btn btn-primary">Agregar</a>
+         </div>
+ <div class="col-9" style="display: grid; align-items: center; text-align:right">
+             <asp:Label Text="Articulos por página:" runat="server" style="text-align:right"/>
+      </div>
+<div class="col-1" style="text-align:right">
+<asp:TextBox runat="server" TextMode="Number" ID="Cantidadxpagina" style="float: right" CssClass="form-control" Width="75px" OnTextChanged="Cantidadxpagina_TextChanged" AutoPostBack="true" />
+</div>
+</div>
+
+
+
+
+
+
+
 
 
 

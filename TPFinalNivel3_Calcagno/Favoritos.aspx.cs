@@ -29,6 +29,18 @@ namespace TPFinalNivel3_Calcagno
                     dgvlistaArticulos.DataSource = Session["listaArticulos"];
                     dgvlistaArticulos.DataBind();
                 }
+
+                if (Session["cantxpagina"] != null)
+                {
+                    int a = (int)Session["cantxpagina"];
+                    // int.TryParse(Cantidadxpagina.Text, out a);
+                    Cantidadxpagina.Text = Convert.ToString(a);
+                    CargarCantidadxPagina();
+                }
+                else
+                {
+                    Cantidadxpagina.Text = "10";
+                }
             }
         }
 
@@ -130,5 +142,33 @@ namespace TPFinalNivel3_Calcagno
             dgvlistaArticulos.DataBind();
 
         }
+
+
+        protected void Cantidadxpagina_TextChanged(object sender, EventArgs e)
+        {
+            CargarCantidadxPagina();
+        }
+
+
+        protected void CargarCantidadxPagina()
+        {
+            int a;
+            if (int.TryParse(Cantidadxpagina.Text, out a))
+            {
+                dgvlistaArticulos.PageSize = a;
+                dgvlistaArticulos.DataSource = Session["listaArticulos"];
+                dgvlistaArticulos.PageIndex = 0;
+                Session.Add("cantxpagina", a);
+                dgvlistaArticulos.DataBind();
+            }
+            else
+            {
+                dgvlistaArticulos.PageSize = 10;
+                dgvlistaArticulos.DataSource = Session["listaArticulos"];
+                dgvlistaArticulos.PageIndex = 0;
+                dgvlistaArticulos.DataBind();
+            }
+        }
+
     }
 }

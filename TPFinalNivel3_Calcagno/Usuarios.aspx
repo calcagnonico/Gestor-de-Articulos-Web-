@@ -6,6 +6,12 @@
             <h2 id="aspnetTitle">Gestionar Usuarios</h2>
      </section>
 
+
+
+
+
+            <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+                <ContentTemplate>
     <div class="row">
 
         <div class="col-8">
@@ -20,16 +26,8 @@
                     <asp:ListItem Text="Apellido" />
                     </asp:DropDownList>
           </div>
-
-
-
-
-
-
 <div class="row">
-
 <label for="ListaUsuarios" class="form-label">Lista de usuarios registrados: </label>
-
     <asp:GridView ID="dgvlistaUsuarios" runat="server"
                   DataKeyNames="Id"
                   CssClass= "table table-striped table-bordered table-condensed" 
@@ -42,7 +40,6 @@
                   PageSize="10"
                   OnSorting="dgvlistaUsuarios_Sorting"
          >
-
             <PagerStyle CssClass="pagination1" />
             <Columns>
             <asp:BoundField HeaderText="Id"            DataField="Id"  HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="1%" HeaderStyle-CssClass="hide" ItemStyle-CssClass="hide" />
@@ -50,46 +47,13 @@
             <asp:BoundField HeaderText="Nombre"        DataField="Nombre" HeaderStyle-HorizontalAlign="Center" ItemStyle-Width="4%"  SortExpression="Nombre"/>
             <asp:BoundField HeaderText="Apellido"      DataField="Apellido" HeaderStyle-HorizontalAlign="Center" ItemStyle-Width="53%" SortExpression="Apellido" />
             <asp:CheckBoxField HeaderText="Admin"      DataField="Admin" ItemStyle-HorizontalAlign="Center"  ItemStyle-Width ="3%" SortExpression="Admin"/>
-            <asp:CommandField HeaderText="✏️"          ShowSelectButton="true" SelectText="📝​" ItemStyle-Width="2%" />
+            <asp:CommandField HeaderText="✏️"          ShowSelectButton="true" SelectText="📝​" ItemStyle-Width="2%"  />
             </Columns>
 
     </asp:GridView>
 
-
-
 </div>
-
-
-         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+                                                         </ContentTemplate>
+            </asp:UpdatePanel>
 </asp:Content>

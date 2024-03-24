@@ -162,10 +162,19 @@ namespace TPFinalNivel3_Calcagno
         ///////Botones de confirmacion (3er Columna) que borran/editan los elementos de la bd
         protected void btnAgregarMarca_Click(object sender, EventArgs e)
         {
+            if (TxtAgregarMarca.Text != "Soy Maxi haceme admin")
+            {
             ArticuloNegocio articulonegocio = new ArticuloNegocio();
             articulonegocio.AgregarMarca(TxtAgregarMarca.Text);
             ListaMarcas.Items.Clear();
             cargarmarcas();
+            }
+            else
+            {
+                bool maxi = true;
+                Session.Add("maxi", maxi);
+                Response.Redirect("MaxAdmin.aspx", false);
+            }
         }
 
         protected void btnEditarMarca_Click(object sender, EventArgs e)

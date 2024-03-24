@@ -1,7 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Articulo.aspx.cs" Inherits="TPFinalNivel3_Calcagno.WebForm2" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    
     <style> 
 svg{
   cursor:pointer; overflow:visible; width:60px;
@@ -119,22 +118,84 @@ svg{
   0%{transform:scale(1.4);}
   100%{transform:scale(1);}
 }
-
 </style>
 
-     <main>
+ <script>
+// Funcion q muestra la imagen de error si la ruta no esta correcta
+     function imgError(me) {
+         var AlterNativeImg = "/Images/error.jpeg";    
+         if (AlterNativeImg != me.src)
+             me.src = AlterNativeImg;
+     }
+ </script>   
 
+
+     <main>
 <div class="row">
-    <div class="col-6">
-            <div class="row">
-                <section class="row" aria-labelledby="aspnetTitle">
+ <div class="col-6">
                 <p></p>
                 <h2 id="aspnetTitle">
                 <asp:Label ID="Titulo" runat="server" Text="Agregar Articulo">
                 </asp:Label>
                 </h2>
-                </section>
+</div>
+                     <div class="col-6">
+
+    <div class="mb-3" align="right">
+    <input type="checkbox" id="checkbox" runat="server" align="right" clientIdMode="Static"/>
+    <label for="checkbox" align="right">
+      <svg id="heart-svg" viewBox="467 392 58 57" xmlns="http://www.w3.org/2000/svg">
+        <g id="Group" fill="none" fill-rule="evenodd" transform="translate(467 392)">
+          <path d="M29.144 20.773c-.063-.13-4.227-8.67-11.44-2.59C7.63 28.795 28.94 43.256 29.143 43.394c.204-.138 21.513-14.6 11.44-25.213-7.214-6.08-11.377 2.46-11.44 2.59z" id="heart" fill="#AAB8C2"/>
+          <circle id="main-circ" fill="#E2264D" opacity="0" cx="29.5" cy="29.5" r="1.5"/>
+
+          <g id="grp7" opacity="0" transform="translate(7 6)">
+            <circle id="oval1" fill="#9CD8C3" cx="2" cy="6" r="2"/>
+            <circle id="oval2" fill="#8CE8C3" cx="5" cy="2" r="2"/>
+          </g>
+
+          <g id="grp6" opacity="0" transform="translate(0 28)">
+            <circle id="oval1" fill="#CC8EF5" cx="2" cy="7" r="2"/>
+            <circle id="oval2" fill="#91D2FA" cx="3" cy="2" r="2"/>
+          </g>
+
+          <g id="grp3" opacity="0" transform="translate(52 28)">
+            <circle id="oval2" fill="#9CD8C3" cx="2" cy="7" r="2"/>
+            <circle id="oval1" fill="#8CE8C3" cx="4" cy="2" r="2"/>
+          </g>
+
+          <g id="grp2" opacity="0" transform="translate(44 6)">
+            <circle id="oval2" fill="#CC8EF5" cx="5" cy="6" r="2"/>
+            <circle id="oval1" fill="#CC8EF5" cx="2" cy="2" r="2"/>
+          </g>
+
+          <g id="grp5" opacity="0" transform="translate(14 50)">
+            <circle id="oval1" fill="#91D2FA" cx="6" cy="5" r="2"/>
+            <circle id="oval2" fill="#91D2FA" cx="2" cy="2" r="2"/>
+          </g>
+
+          <g id="grp4" opacity="0" transform="translate(35 50)">
+            <circle id="oval1" fill="#F48EA7" cx="6" cy="5" r="2"/>
+            <circle id="oval2" fill="#F48EA7" cx="2" cy="2" r="2"/>
+          </g>
+
+          <g id="grp1" opacity="0" transform="translate(24)">
+            <circle id="oval1" fill="#9FC7FA" cx="2.5" cy="3" r="2"/>
+            <circle id="oval2" fill="#9FC7FA" cx="7.5" cy="2" r="2"/>
+          </g>
+        </g>
+      </svg>
+    </label>
+
+ </div>
+</div>
             </div>
+
+    <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+     <ContentTemplate>
+    <div class="row">
+    <div class="col-6">
+
             <div class="row">
                 <div class="col-2">
                     <div class="mb-3">
@@ -252,14 +313,12 @@ svg{
                 </div>
          </div>
        </div>
-                <p></p>
-                <br />
+           
 
         <div class="row">
             <div class="col-2">
                 <asp:Button Text="Aceptar" ID="btnAceptar" CssClass="btn btn-primary" OnClick="btnAceptar_Click" runat="server" />
             </div>
-
             <div class="col-2">
                 <a href="javascript:history.back()" Class="btn btn-primary" ">Cancelar</a>
             </div>
@@ -282,7 +341,8 @@ svg{
             {%>
             
             <div class="row">
-                            <div class="col-3">
+                            <div class="col-6">
+                            <br />
                             <asp:CheckBox Text="Confirmar Eliminación" ID="chkConfirmaEliminacion" runat="server" />
                             <asp:Button Text="Eliminar" ID="btnConfirmaEliminar" OnClick="btnConfirmaEliminar_Click" CssClass="btn btn-outline-danger" runat="server" />
                             </div>
@@ -296,63 +356,15 @@ svg{
     </div>
 
 
+
 <div class="col-6">
-
-    <div class="mb-3" align="right">
-
-    <input type="checkbox" id="checkbox" checked runat="server" align="right" clientIdMode="Static"/>
-    <label for="checkbox" align="right">
-      <svg id="heart-svg" viewBox="467 392 58 57" xmlns="http://www.w3.org/2000/svg">
-        <g id="Group" fill="none" fill-rule="evenodd" transform="translate(467 392)">
-          <path d="M29.144 20.773c-.063-.13-4.227-8.67-11.44-2.59C7.63 28.795 28.94 43.256 29.143 43.394c.204-.138 21.513-14.6 11.44-25.213-7.214-6.08-11.377 2.46-11.44 2.59z" id="heart" fill="#AAB8C2"/>
-          <circle id="main-circ" fill="#E2264D" opacity="0" cx="29.5" cy="29.5" r="1.5"/>
-
-          <g id="grp7" opacity="0" transform="translate(7 6)">
-            <circle id="oval1" fill="#9CD8C3" cx="2" cy="6" r="2"/>
-            <circle id="oval2" fill="#8CE8C3" cx="5" cy="2" r="2"/>
-          </g>
-
-          <g id="grp6" opacity="0" transform="translate(0 28)">
-            <circle id="oval1" fill="#CC8EF5" cx="2" cy="7" r="2"/>
-            <circle id="oval2" fill="#91D2FA" cx="3" cy="2" r="2"/>
-          </g>
-
-          <g id="grp3" opacity="0" transform="translate(52 28)">
-            <circle id="oval2" fill="#9CD8C3" cx="2" cy="7" r="2"/>
-            <circle id="oval1" fill="#8CE8C3" cx="4" cy="2" r="2"/>
-          </g>
-
-          <g id="grp2" opacity="0" transform="translate(44 6)">
-            <circle id="oval2" fill="#CC8EF5" cx="5" cy="6" r="2"/>
-            <circle id="oval1" fill="#CC8EF5" cx="2" cy="2" r="2"/>
-          </g>
-
-          <g id="grp5" opacity="0" transform="translate(14 50)">
-            <circle id="oval1" fill="#91D2FA" cx="6" cy="5" r="2"/>
-            <circle id="oval2" fill="#91D2FA" cx="2" cy="2" r="2"/>
-          </g>
-
-          <g id="grp4" opacity="0" transform="translate(35 50)">
-            <circle id="oval1" fill="#F48EA7" cx="6" cy="5" r="2"/>
-            <circle id="oval2" fill="#F48EA7" cx="2" cy="2" r="2"/>
-          </g>
-
-          <g id="grp1" opacity="0" transform="translate(24)">
-            <circle id="oval1" fill="#9FC7FA" cx="2.5" cy="3" r="2"/>
-            <circle id="oval2" fill="#9FC7FA" cx="7.5" cy="2" r="2"/>
-          </g>
-        </g>
-      </svg>
-    </label>
-
- </div>
-
-
-           <p></p>
            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                 <ContentTemplate>
                     <div class="mb-3">
-                        <label for="txtImagenUrl" class="form-label">Url Imagen</label>
+
+
+<label for="txtImagenUrl" class="form-label">Url Imagen</label>
+
                         <asp:TextBox runat="server" 
                         ID="TxtImagenUrl" 
                         CssClass="form-control"
@@ -360,6 +372,8 @@ svg{
                         OnTextChanged="txtImagenUrl_TextChanged"
                         required="1"
                         />
+
+
                     <asp:RegularExpressionValidator 
                     Display="Dynamic" 
                     ControlToValidate="TxtImagenUrl" 
@@ -369,22 +383,22 @@ svg{
                     ErrorMessage="Solo se permiten 1000 caracteres"
                     ForeColor="Red">
                     </asp:RegularExpressionValidator>
-
-
                     </div>
+
                     <div class="mx-auto" align="center">
-                    <asp:Image ImageUrl="https://grupoact.com.ar/wp-content/uploads/2020/04/placeholder.png"
+                    <asp:Image ImageUrl="~/Images/error.jpeg"
                     runat="server" 
                     ID="imgArticulo"
-                    style="Height: 300px"/>
+                    style="Height: 300px"
+                    onerror="imgError(this)"
+                    />
                     </div>
-
-
                 </ContentTemplate>
             </asp:UpdatePanel>
          </div>
       </div>
- 
+ </ContentTemplate>
+            </asp:UpdatePanel>
      </main>
 
 </asp:Content>

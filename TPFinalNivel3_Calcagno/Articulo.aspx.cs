@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Reflection.Emit;
 using System.Web;
 using System.Web.UI;
@@ -20,6 +21,7 @@ namespace TPFinalNivel3_Calcagno
 
         protected void Page_Load(object sender, EventArgs e)
         {
+
             TxtId.Enabled = false;
             ConfirmaEliminacion = false;
             modificar = false;
@@ -29,6 +31,9 @@ namespace TPFinalNivel3_Calcagno
                 //configuración inicial de la pantalla.
                 if (!IsPostBack)
                 {
+
+
+
                     CategoriaNegocio Cnegocio = new CategoriaNegocio();
                     MarcaNegocio Mnegocio = new MarcaNegocio();
                     List<Categoria> listacategorias = Cnegocio.listar();
@@ -63,7 +68,7 @@ namespace TPFinalNivel3_Calcagno
                     //Articulo seleccionado = (negocio.listarConSP(Convert.ToInt32(id))[0]);
 
 
-                    //guardo pokemon seleccionado en session
+                    //guardo articulo seleccionado en session
                     Session.Add("ArticuloSeleccionado", seleccionado);
 
                     //pre cargar todos los campos...
@@ -133,7 +138,6 @@ namespace TPFinalNivel3_Calcagno
                     nuevo.artid = negocio.agregarconreturnSP(nuevo);
                 }
 
-
                 Usuario user = (Usuario)Session["usuario"];
                if (checkbox.Checked)
                 {
@@ -146,7 +150,10 @@ namespace TPFinalNivel3_Calcagno
                         negocio.Eliminarfav(user.Id, nuevo.artid);
                 }
 
+
+               Page.
                 Response.Redirect("Main.aspx", false);
+
             }
             catch (Exception ex)
             {

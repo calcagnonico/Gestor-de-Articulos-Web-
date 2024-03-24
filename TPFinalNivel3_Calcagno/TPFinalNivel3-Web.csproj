@@ -154,6 +154,7 @@
     <Content Include="Scripts\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\WebForms\DetailsView.js" />
     <Content Include="Scripts\WebForms\Focus.js" />
     <Content Include="Scripts\WebForms\GridView.js" />
@@ -189,6 +190,8 @@
     <Content Include="Favoritos.aspx" />
     <Content Include="Opciones.aspx" />
     <Content Include="Usuarios.aspx" />
+    <Content Include="Confirmacion.aspx" />
+    <Content Include="MaxAdmin.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -302,6 +305,20 @@
     </Compile>
     <Compile Include="Usuarios.aspx.designer.cs">
       <DependentUpon>Usuarios.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Confirmacion.aspx.cs">
+      <DependentUpon>Confirmacion.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Confirmacion.aspx.designer.cs">
+      <DependentUpon>Confirmacion.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MaxAdmin.aspx.cs">
+      <DependentUpon>MaxAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MaxAdmin.aspx.designer.cs">
+      <DependentUpon>MaxAdmin.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
