@@ -160,3 +160,4 @@ Se agregaron algunas funcionalidades adicionales:
 - Posibilidad de ordenar listas
 - Posibilidad de Agregar, Editar y Eliminar -> Marcas y Categorias
 - Confirmacion de registro a traves de codigo enviado por mail
+- Se adjunta entre los archivos el script para generar la base de datos final que contiene los Stored Procedures para que funcione el programa
